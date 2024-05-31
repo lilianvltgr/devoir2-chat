@@ -30,7 +30,7 @@ const ChatList = (props) => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/chats">Planifier une discussion</Link>
+                                <Link className={'nav-link'} to="/schedule">Planifier une discussion</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className={'nav-link'} to="/chats">Mes salons de discussion</Link>

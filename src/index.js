@@ -9,6 +9,7 @@ import {
     Route,
 } from "react-router-dom";
 import ChatList from "./components/ChatList";
+import ScheduleChat from "./pages/ScheduleChat";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
         <Routes>
             <Route path="/" element={<App />} />
             <Route path="/chats" element={<ChatList />} />
+            <Route path="/schedule" element={<ScheduleChat />} />
         </Routes>
     </BrowserRouter>
 );
