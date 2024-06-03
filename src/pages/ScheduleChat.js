@@ -10,8 +10,9 @@ function ScheduleChat() {
         title: '',
         description: '',
         creationDate: '',
-        time: '',
-        duration: ''
+        duration: '',
+        creatorId: sessionStorage.getItem("userId")
+
     });
 
     const handleChange = (e) => {
@@ -81,7 +82,7 @@ function ScheduleChat() {
                             />
                         </Grid>
                         <Grid item xs={6}>
-                            <input type="date"
+                            <input type="datetime-local"
                                    onChange={handleChange}
                                    name="date"
                             />
@@ -89,13 +90,8 @@ function ScheduleChat() {
                         <Grid item xs={6}>
                             <input type="time"
                                    onChange={handleChange}
-                                   name="time"
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <input type="int"
-                                   onChange={handleChange}
                                    name="duration"
+                                   placeholder="Durée du chat (heure)"
                             />
                         </Grid>
                     </Grid>
