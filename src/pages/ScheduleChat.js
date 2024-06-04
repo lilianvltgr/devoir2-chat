@@ -7,12 +7,12 @@ import axios from "axios";
 
 function ScheduleChat() {
     const [chat, setChat] = useState({
-        title: '',
-        description: '',
-        creationDate: '',
-        duration: '',
-        creatorId: sessionStorage.getItem("userId")
 
+        title: 'test',
+        description: 'test',
+        creationDate: new Date("1010-10-10"),
+        duration: 0,
+        creatorId: 5//sessionStorage.getItem("userId")
     });
 
     const handleChange = (e) => {
@@ -24,21 +24,23 @@ function ScheduleChat() {
             ...prevChat,
             [name]: value
             // pour le time prendre le premier element du MultiInputTimeRangeField
-            // faire cas special pour duration --> calculer temps entre heure début et heure fin
+            // faire cas special pour duration -> calculer temps entre heure début et heure fin
         }));
         console.log(chat);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/UserController/createChat", chat, {headers : {"Access-Control-Allow-Origin": "*"}})
-            .then(response => console.log(response))
+        axios.post("http://localhost:8080/UserController/createChat",
+           chat, {headers : {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
+            .then(response => (console.log("success" + response)))
             .catch(error => console.error('Error:', error));
-        console.log(chat);
+
+
         //axios.get("http://localhost:8080/test/truc").then(res => {
-        axios.get("http://localhost:8080/UserController/chatsCreatedBy/2").then(res => {
-            console.log(res)
-        });
+        // axios.get("http://localhost:8080/UserController/chatsCreatedBy/2").then(res => {
+        //     console.log(res)
+        // });
     };
 
     const test = () => {
@@ -84,11 +86,11 @@ function ScheduleChat() {
                         <Grid item xs={6}>
                             <input type="datetime-local"
                                    onChange={handleChange}
-                                   name="date"
+                                   name="creationDate"
                             />
                         </Grid>
                         <Grid item xs={6}>
-                            <input type="time"
+                            <input type="number"
                                    onChange={handleChange}
                                    name="duration"
                                    placeholder="Durée du chat (heure)"

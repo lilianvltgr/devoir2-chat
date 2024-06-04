@@ -18,6 +18,7 @@ const Login = (props) => {
                 // Login simple
                 console.log("userId = " + res.data.id)
                 sessionStorage.setItem("userId", res.data.id)
+
                 // Token JWT
                 if (res.headers.authorization){
                     console.log("token = " + res.headers.authorization)
@@ -51,6 +52,7 @@ const Login = (props) => {
                 <Link to="/chats">POUR TEST UNIQUEMENT</Link>
             </form>
         </div>
+
     );
 }
 
