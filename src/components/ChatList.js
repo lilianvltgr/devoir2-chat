@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import ChatsList from "../pages/myChatsList";
 
 const ChatList = (props) => {
     const [chats, setChats] = useState([])
@@ -33,7 +34,7 @@ const ChatList = (props) => {
                                 <Link className={'nav-link'} to="/schedule">Planifier une discussion</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className={'nav-link'} to="/chats">Mes salons de discussion</Link>
+                                <Link className={'nav-link'} to="/mychatslist">Mes salons de discussion</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className={'nav-link'} to="/chats">Mes invitations</Link>

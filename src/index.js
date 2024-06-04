@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import ChatList from "./components/ChatList";
 import ScheduleChat from "./pages/ScheduleChat";
+import MyChatsList from "./pages/myChatsList";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
             <Route path="/" element={<App />} />
             <Route path="/chats" element={<ChatList />} />
             <Route path="/schedule" element={<ScheduleChat />} />
+            <Route path="/myChatsList" element={<MyChatsList />} />
         </Routes>
     </BrowserRouter>
 );
