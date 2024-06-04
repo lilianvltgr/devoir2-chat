@@ -24,7 +24,7 @@ const Login = (props) => {
                 // Login simple
                 console.log("user" + res.data)
                 if(res.data["password"] === password){
-                    sessionStorage.setItem("userId", res.data.id)
+                    sessionStorage.setItem("userId", res.data["userId"])
                     console.log("connecté")
                     // Token JWT
                     if (res.headers.authorization){

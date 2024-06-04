@@ -9,13 +9,20 @@ import Login from "../components/Login";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-function chatsList() {
+const ChatsList= () => {
+    const [Chats, setChats] = useState([]);
     let userId = sessionStorage.getItem("userId")
-    if (userId) {
-        let requestUrl = "http://localhost:8080/UserController/chatsCreatedBy" + userId
+    if (userId !== undefined) {
+        let requestUrl = "http://localhost:8080/UserController/chatsCreatedBy/" + userId
         axios.get(requestUrl
-            , {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
-            .then(response => (console.log("success" + response)))
+            , {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }})
+            .then(response => {
+                (console.log("success" + response));
+                setChats(response.data)
+            })
             .catch(error => console.error('Error:', error));
 
         return (
@@ -25,16 +32,23 @@ function chatsList() {
                     Mes chats
                 </Typography>
                 <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-
                     <List>
-                        <ListItem>
-                            <ListItemText primary="test"/>
-                        </ListItem><ListItem>
-                        <ListItemText primary="test"/>
-                    </ListItem><ListItem>
-                        <ListItemText primary="test"/>
-                    </ListItem>
+                        {Chats.map(Chat => (
+                            <ListItem>
+                                <ListItemText primary={Chat.title} secondary={Chat.description} />
+                            </ListItem>
+                        ))}
                     </List>
+
+                    {/*<List>*/}
+                    {/*    <ListItem>*/}
+                    {/*        <ListItemText primary="test"/>*/}
+                    {/*    </ListItem><ListItem>*/}
+                    {/*    <ListItemText primary="test"/>*/}
+                    {/*</ListItem><ListItem>*/}
+                    {/*    <ListItemText primary="test"/>*/}
+                    {/*</ListItem>*/}
+                    {/*</List>*/}
                 </Box>
             </div>
         );
@@ -42,6 +56,6 @@ function chatsList() {
         return <Login></Login>
 }
 
-export default chatsList;
+export default ChatsList;
 
 

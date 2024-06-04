@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import ChatList from "./components/ChatList";
 import ScheduleChat from "./pages/ScheduleChat";
-import MyChatsList from "./pages/myChatsList";
+import MyChatsList from "./pages/MyChatsList";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

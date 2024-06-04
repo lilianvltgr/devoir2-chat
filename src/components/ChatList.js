@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import ChatsList from "../pages/myChatsList";
+import ChatsList from "../pages/MyChatsList";
 
 const ChatList = (props) => {
     const [chats, setChats] = useState([])
