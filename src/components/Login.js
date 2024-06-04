@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 
+
 const Login = (props) => {
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
@@ -11,19 +12,27 @@ const Login = (props) => {
 
         console.log("mail = " + mail)
         console.log("password = " + password)
-
+        let requestUrl = "http://localhost:8080/UserController/getUserByMail?mail=" + mail
         // Requete HTTP login au backend spring
-        axios.post("http://localhost:8080/api/secure/test/login", {mail: mail, password: password})
+        axios.get(requestUrl, {
+            headers:
+                {
+                    'Access-Control-Allow-Origin': '*'
+                }
+        })
             .then(res => {
                 // Login simple
-                console.log("userId = " + res.data.id)
-                sessionStorage.setItem("userId", res.data.id)
-
-                // Token JWT
-                if (res.headers.authorization){
-                    console.log("token = " + res.headers.authorization)
-                    sessionStorage.setItem("token", res.headers.authorization)
+                console.log("user" + res.data)
+                if(res.data["password"] === password){
+                    sessionStorage.setItem("userId", res.data.id)
+                    console.log("connecté")
+                    // Token JWT
+                    if (res.headers.authorization){
+                        console.log("token = " + res.headers.authorization)
+                        sessionStorage.setItem("token", res.headers.authorization)
+                    }
                 }
+
             })
             .catch(err => {
                 console.log(err)
@@ -38,8 +47,8 @@ const Login = (props) => {
                     <input type="email" name="mail" className="form-control" id="mail" value={mail}
                            onChange={e => {
                                setMail(e.target.value)
-                           }} required={true}/>
-                </div>
+                           }} requied={true}/>
+                </div>r
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
                     <input type="password" name="password" className="form-control" id="password" value={password}

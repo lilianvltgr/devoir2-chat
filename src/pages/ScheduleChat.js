@@ -12,7 +12,7 @@ function ScheduleChat() {
         description: 'test',
         creationDate: new Date("1010-10-10"),
         duration: 0,
-        creatorId: 5//sessionStorage.getItem("userId")
+        creatorId: sessionStorage.getItem("userId")
     });
 
     const handleChange = (e) => {
