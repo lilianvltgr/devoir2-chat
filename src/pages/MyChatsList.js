@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import {TextField, Typography, Grid, Box, ListItemText} from "@mui/material";
+import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton} from "@mui/material";
 import "../chat.css";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import ScheduleChat from "./ScheduleChat";
 import Login from "../components/Login";
 import Sidebar from "../components/Sidebar";
@@ -41,9 +43,18 @@ const ChatsList= () => {
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                         <List>
                             {Chats.map(Chat => (
+                                <React.Fragment>
                                 <ListItem>
                                     <ListItemText primary={Chat.title} secondary={Chat.description}/>
+                                    <IconButton edge="end" aria-label="comments">
+                                        <DeleteOutlineIcon></DeleteOutlineIcon>
+                                    </IconButton>
+                                    <IconButton edge="end" aria-label="add people">
+                                        <PersonAddAltIcon></PersonAddAltIcon>
+                                    </IconButton>
                                 </ListItem>
+                                <Divider component="li" />
+                                </React.Fragment>
                             ))}
                         </List>
                     </Box>

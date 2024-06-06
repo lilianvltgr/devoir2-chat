@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TextField, Typography, Grid, Box, ListItemText} from "@mui/material";
+import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton} from "@mui/material";
 import List from '@mui/material/List';
 import "../chat.css"
 import ListItem from '@mui/material/ListItem';
@@ -7,6 +7,8 @@ import axios from "axios";
 import ScheduleChat from "./ScheduleChat";
 import Login from "../components/Login";
 import Sidebar from "../components/Sidebar";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -40,9 +42,18 @@ const InvitedChatsList = () => {
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                         <List>
                             {Chats.map(Chat => (
-                                <ListItem>
-                                    <ListItemText primary={Chat.title} secondary={Chat.description}/>
-                                </ListItem>
+                                <React.Fragment>
+                                    <ListItem>
+                                        <ListItemText primary={Chat.title} secondary={Chat.description}/>
+                                        <IconButton edge="end" aria-label="comments">
+                                            <DeleteOutlineIcon></DeleteOutlineIcon>
+                                        </IconButton>
+                                        <IconButton edge="end" aria-label="add people">
+                                            <PersonAddAltIcon></PersonAddAltIcon>
+                                        </IconButton>
+                                    </ListItem>
+                                    <Divider component="li" />
+                                </React.Fragment>
                             ))}
                         </List>
 
