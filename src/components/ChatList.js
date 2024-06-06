@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import Sidebar from "./Sidebar";
 import {Link} from "react-router-dom";
 import ChatsList from "../pages/MyChatsList";
 
@@ -24,31 +25,12 @@ const ChatList = (props) => {
     }, [])
 
     return (
-        <div>
-            <nav className="navbar navbar-expand-lg">
-                <div className="container-fluid">
-                    <Link className={'navbar-brand'} to="/chats">Accueil</Link>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <Link className={'nav-link'} to="/schedule">Planifier une discussion</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className={'nav-link'} to="/mychatslist">Mes salons de discussion</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className={'nav-link'} to="/chats">Mes invitations</Link>
-                            </li>
-                        </ul>
-                    </div>
+        <div className="container">
+            <div className="row">
+                <div className="col-md-3">
+                    <Sidebar />
                 </div>
-            </nav>
-            <div className="content">
-                <aside>
-                    <div>Bob</div>
-                    <div>Admin</div>
-                </aside>
-                <main>
+                <div className="col-md-9">
                     <table className="table">
                         <thead>
                         <tr>
@@ -57,7 +39,7 @@ const ChatList = (props) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {chats && chats.map((chat) => (
+                        {chats.map((chat) => (
                             <tr key={chat.id}>
                                 <td>{chat.title}</td>
                                 <td>{chat.description}</td>
@@ -65,10 +47,10 @@ const ChatList = (props) => {
                         ))}
                         </tbody>
                     </table>
-                </main>
+                </div>
             </div>
         </div>
     );
-}
+};
 
 export default ChatList;

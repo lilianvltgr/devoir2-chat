@@ -87,6 +87,7 @@ function ScheduleChat() {
                             <input type="datetime-local"
                                    onChange={handleChange}
                                    name="creationDate"
+                                   class="custom-button"
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -94,11 +95,12 @@ function ScheduleChat() {
                                    onChange={handleChange}
                                    name="duration"
                                    placeholder="Durée du chat (heure)"
+                                   class="custom-button"
                             />
                         </Grid>
                     </Grid>
                 </Box>
-                <button onClick={test}>aaas</button>
+                <button onClick={test} class="validate-button" >Ajouter</button>
             </form>
     );
 }
