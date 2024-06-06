@@ -1,15 +1,16 @@
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import MyChatsList from "../pages/MyChatsList"
 
 
 const Login = (props) => {
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
+    const [errorConnection, setErrorConnection] = useState(false)
 
     const handleLogin = (event) => {
         event.preventDefault();
-
         console.log("mail = " + mail)
         console.log("password = " + password)
         let requestUrl = "http://localhost:8080/UserController/getUserByMail?mail=" + mail
@@ -26,12 +27,16 @@ const Login = (props) => {
                 if(res.data["password"] === password){
                     sessionStorage.setItem("userId", res.data["userId"])
                     console.log("connecté")
+                    setErrorConnection (false);
                     // Token JWT
                     if (res.headers.authorization){
                         console.log("token = " + res.headers.authorization)
                         sessionStorage.setItem("token", res.headers.authorization)
                     }
+                    window.location.href = '/MyChatsList';
                 }
+                else {
+                    setErrorConnection (true);}
 
             })
             .catch(err => {
@@ -48,17 +53,17 @@ const Login = (props) => {
                            onChange={e => {
                                setMail(e.target.value)
                            }} requied={true}/>
-                </div>r
+                </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
                     <input type="password" name="password" className="form-control" id="password" value={password}
                            onChange={e => {
                                setPassword(e.target.value)
                            }} required={true}/>
-                    <div className="invalid-feedback">Login ou mot de passe incorrect</div>
+                    {errorConnection && (<div style={{ color: 'red' }}>Login ou mot de passe incorrect</div>)}
                 </div>
                 <button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</button>
-                <Link to="/chats">POUR TEST UNIQUEMENT</Link>
+                <Link to="/MyChatsList">test </Link>
             </form>
         </div>
 

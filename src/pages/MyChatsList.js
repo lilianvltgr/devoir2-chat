@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
 import {TextField, Typography, Grid, Box, ListItemText} from "@mui/material";
+import "../chat.css";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
 import ScheduleChat from "./ScheduleChat";
 import Login from "../components/Login";
+import Sidebar from "../components/Sidebar";
+
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const ChatsList= () => {
+
     const [Chats, setChats] = useState([]);
     let userId = sessionStorage.getItem("userId")
     if (userId !== undefined) {
@@ -26,30 +30,24 @@ const ChatsList= () => {
             .catch(error => console.error('Error:', error));
 
         return (
-            // <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <div>
-                <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
-                    Mes chats
-                </Typography>
-                <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-                    <List>
-                        {Chats.map(Chat => (
-                            <ListItem>
-                                <ListItemText primary={Chat.title} secondary={Chat.description} />
-                            </ListItem>
-                        ))}
-                    </List>
-
-                    {/*<List>*/}
-                    {/*    <ListItem>*/}
-                    {/*        <ListItemText primary="test"/>*/}
-                    {/*    </ListItem><ListItem>*/}
-                    {/*    <ListItemText primary="test"/>*/}
-                    {/*</ListItem><ListItem>*/}
-                    {/*    <ListItemText primary="test"/>*/}
-                    {/*</ListItem>*/}
-                    {/*</List>*/}
-                </Box>
+            <div className="container">
+                <div className="sidebar">
+                    <Sidebar/>
+                </div>
+                <div className="col-md-9">
+                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                        Mes chats
+                    </Typography>
+                    <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+                        <List>
+                            {Chats.map(Chat => (
+                                <ListItem>
+                                    <ListItemText primary={Chat.title} secondary={Chat.description}/>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                </div>
             </div>
         );
     } else

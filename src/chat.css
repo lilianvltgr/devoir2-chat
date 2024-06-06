@@ -60,12 +60,6 @@ main{
 .navbar-brand, .nav-link {
     color: #fff;
 }
-
-.sidebar {
-    position: relative;
-z-index: 1;
-}
-
 .content {
     position: relative;
 z-index: 0;
@@ -133,13 +127,14 @@ overflow-x: hidden;
 }
 
 
-.container {
+div.container {
     display: flex; /* Utilise flexbox pour la disposition */
     min-height: 100vh; /* S'assure que le conteneur prend toute la hauteur de la vue */
     margin: 0; /* Enlève les marges par défaut */
+    flex-direction: row; /* Explicitly set to row */
 }
 
-.sidebar {
+div.sidebar {
     flex: 0 0 250px; /* flex-grow, flex-shrink, flex-basis */
     background-color: #f0f0f0; /* Couleur de fond du panneau */
     border-radius: 20px;
@@ -150,7 +145,7 @@ overflow-x: hidden;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Ombre pour un effet visuel */
 }
 
-.col-md-9 {
+div.col-md-9 {
     flex: 1; /* Prend le reste de l'espace disponible */
     padding: 30px; /* Espacement à l'intérieur du contenu principal */
 }
