@@ -25,12 +25,10 @@ const ChatList = (props) => {
     }, [])
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-md-3">
-                    <Sidebar />
-                </div>
-                <div className="col-md-9">
+
+            <div className="container">
+                <Sidebar/>
+                <div className="content">
                     <table className="table">
                         <thead>
                         <tr>
@@ -47,8 +45,8 @@ const ChatList = (props) => {
                         ))}
                         </tbody>
                     </table>
+
                 </div>
-            </div>
         </div>
     );
 };

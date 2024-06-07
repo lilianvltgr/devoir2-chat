@@ -1,17 +1,27 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import AddIcon from '../icons/add-icon.svg';
+import PersoIcon from '../icons/perso-icon.svg';
+import ListIcon from '../icons/list-icon.svg';
+import InviteIcon from '../icons/invite-icon.svg';
 
 const Sidebar = () => {
     return (
-        <div>
-            <Link to="/schedule" className="sidebar-button">
-                <img src={AddIcon} alt="Ajouter Chat" />
-                Ajouter Chat</Link>
-            <br/>
-            <Link to="/myChatsList" class="sidebar-button">Mes salons</Link>
-            <br/>
-            <Link to="/InvitedChatsList" class="sidebar-button">Invitations</Link>
+        <div className="sidebar">
+            <div className="link-container">
+                <Link to="/schedule" className="sidebar-button">
+                    <img src={AddIcon} alt="Ajouter Chat" />
+                    Ajouter Chat
+                </Link>
+                <Link to="/mychatslist" className="sidebar-button">
+                    <img src={PersoIcon} alt="Mes salons" />
+                    Mes salons
+                </Link>
+                <Link to="/chats" className="sidebar-button">
+                    <img src={InviteIcon} alt="Invitations" />
+                    Invitations
+                </Link>
+            </div>
         </div>
     );
 };
