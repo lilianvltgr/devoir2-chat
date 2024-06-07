@@ -68,10 +68,15 @@ body, #root{
 
 .content {
     position: relative;
-z-index: 0;
+    z-index: 0;
     padding: 1rem;
-overflow-x: hidden;
+    overflow-x: hidden;
     border-radius: 20px;
+    overflow-y: auto; /* Permet le défilement si le contenu est trop long */
+}
+.main-content {
+    display: flex;
+    flex-grow: 1; /* Utilise tout l'espace restant après le header */
 }
 
 
@@ -136,10 +141,12 @@ overflow-x: hidden;
 
 
 .container {
-    display: flex; /* Active Flexbox */
-    min-height: 100vh; /* S'assure que le conteneur prend toute la hauteur de la vue */
-    margin: 0; /* Supprime les marges */
+    display: flex;
+    flex-direction: column; /* Les éléments s'empilent verticalement */
+    height: 100vh; /* Prend toute la hauteur de la vue */
+    width: 100vw; /* Prend toute la largeur de la vue */
 }
+
 
 .sidebar {
     position: relative;
@@ -149,16 +156,25 @@ overflow-x: hidden;
     border-radius: 20px;
     min-width: 300px;
     max-width: 400px;
-    height: 100vh;
     padding: 20px; /* Espacement à l'intérieur du panneau */
     box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Ombre pour un effet visuel */
+    height: calc(100vh - 60px); /* Hauteur ajustée pour le header */
+    overflow-y: auto; /* Permet le défilement si le contenu est trop long */
 }
-
+.link-container {
+    background-color: #fffdfd;
+    border-radius: 10px;
+    opacity: 80%;
+    padding: 10px;
+}
+.link-container:hover {
+    opacity: 100%;
+}
 .sidebar-button {
     display: block; /* Rend chaque lien en bloc pour remplir la sidebar */
     margin: 5px 0; /* Ajoute de l'espacement vertical entre les boutons */
     color: #333; /* Couleur du texte */
-    font-size: 17px;
+    font-size: 19px;
     text-decoration: none; /* Enlève le soulignement */
     transition: background-color 0.3s; /* Animation lors du survol */
 }
@@ -174,6 +190,10 @@ overflow-x: hidden;
 
 .sidebar-button:active {
 }
+.sidebar-button img {
+    padding: 5px;
+    width:40px;
+}
 
 .icon {
   /* Couleur de l'icône */
@@ -181,3 +201,25 @@ overflow-x: hidden;
     height: 20px; /* Hauteur de l'icône */
 }
 
+/* Header.css */
+.app-header {
+    width: 100%; /* Prend toute la largeur disponible */
+    height: 60px; /* Hauteur fixe */
+    background-color: #f0f0f0; /* Couleur de fond */
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.app-header img {
+    margin-right: 10px;
+}
+
+.app-header h1 {
+    margin: 0;
+    color: #333; /* Couleur de texte, ajustez selon vos préférences */
+    font-size: 35px; /* Taille de la police */
+}
