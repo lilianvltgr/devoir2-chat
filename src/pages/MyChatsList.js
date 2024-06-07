@@ -30,7 +30,6 @@ const ChatsList = () => {
                 }
             })
             .then(response => {
-                (console.log("success" + response));
             })
             .catch(error => console.error('Error:', error));
         requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
@@ -41,7 +40,6 @@ const ChatsList = () => {
                 }
             })
             .then(response => {
-                (console.log("success" + response));
                 window.location.reload();
             })
             .catch(error => console.error('Error:', error));
@@ -57,7 +55,6 @@ const ChatsList = () => {
                 }
             })
             .then(response => {
-                (console.log("success" + response));
                 setChats(response.data)
             })
             .catch(error => console.error('Error:', error));
