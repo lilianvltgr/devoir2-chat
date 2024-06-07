@@ -13,11 +13,11 @@ const Sidebar = () => {
                     <img src={AddIcon} alt="Ajouter Chat" />
                     Ajouter Chat
                 </Link>
-                <Link to="/mychatslist" className="sidebar-button">
+                <Link to="/myChatsList" className="sidebar-button">
                     <img src={PersoIcon} alt="Mes salons" />
                     Mes salons
                 </Link>
-                <Link to="/chats" className="sidebar-button">
+                <Link to="/InvitedChatsList" className="sidebar-button">
                     <img src={InviteIcon} alt="Invitations" />
                     Invitations
                 </Link>

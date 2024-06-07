@@ -63,7 +63,6 @@ const Login = (props) => {
                     {errorConnection && (<div style={{ color: 'red' }}>Login ou mot de passe incorrect</div>)}
                 </div>
                 <button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</button>
-                <Link to="/MyChatsList">test </Link>
             </form>
         </div>
 

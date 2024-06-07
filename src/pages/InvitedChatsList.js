@@ -9,6 +9,7 @@ import Login from "../components/Login";
 import Sidebar from "../components/Sidebar";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import Header from "../components/Header";
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -35,26 +36,27 @@ const InvitedChatsList = () => {
 
         return (
             <div className="container">
-                <div className="sidebar">
+                <Header/>
+                <div className="main-content">
                     <Sidebar/>
-                </div>
-                <div className="col-md-9">
-                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
-                        Mes invitations de chat
-                    </Typography>
-                    <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-                        <List>
-                            {Chats.map(Chat => (
-                                <React.Fragment>
-                                    <ListItem>
-                                        <ListItemText primary={Chat.title} secondary={Chat.description}/>
-                                    </ListItem>
-                                    <Divider component="li" />
-                                </React.Fragment>
-                            ))}
-                        </List>
+                    <div className="content">
+                        <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                            Mes invitations de chat
+                        </Typography>
+                        <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+                            <List>
+                                {Chats.map(Chat => (
+                                    <React.Fragment>
+                                        <ListItem>
+                                            <ListItemText primary={Chat.title} secondary={Chat.description}/>
+                                        </ListItem>
+                                        <Divider component="li"/>
+                                    </React.Fragment>
+                                ))}
+                            </List>
 
-                    </Box>
+                        </Box>
+                    </div>
                 </div>
             </div>
         );
