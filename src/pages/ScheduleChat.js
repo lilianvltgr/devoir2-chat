@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {TextField, Typography, Grid, Box} from "@mui/material";
 import axios from "axios";
+import Sidebar from "../components/Sidebar";
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -48,60 +49,68 @@ function ScheduleChat() {
     }
 
     return (
+
+        <div className="container">
+            <Sidebar/>
+            <div className="content">
+                <form onSubmit={handleSubmit}>
+                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                        Planifier un chat
+                    </Typography>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': {m: 1, width: '25ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <Grid container rowSpacing={1}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Required"
+                                    placeholder="Titre"
+                                    onChange={handleChange}
+                                    name="title"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Multiline"
+                                    placeholder="Description"
+                                    multiline
+                                    maxRows={4}
+                                    onChange={handleChange}
+                                    name="description"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <input type="datetime-local"
+                                       onChange={handleChange}
+                                       name="creationDate"
+                                       className="custom-button"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <input type="number"
+                                       onChange={handleChange}
+                                       name="duration"
+                                       placeholder="Durée du chat (heure)"
+                                       className="custom-button"
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <button onClick={test} className="validate-button">Ajouter</button>
+                </form>
+            </div>
+        </div>
         // <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <form onSubmit={handleSubmit}>
-                <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
-                    Planifier un chat
-                </Typography>
-                <Box
-                    component="form"
-                    sx={{
-                        '& .MuiTextField-root': { m: 1, width: '25ch' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                    <Grid container rowSpacing={1}>
-                        <Grid item xs={6}>
-                            <TextField
-                                required
-                                id="outlined-required"
-                                label="Required"
-                                placeholder="Titre"
-                                onChange={handleChange}
-                                name="title"
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField
-                                id="outlined-multiline-flexible"
-                                label="Multiline"
-                                placeholder="Description"
-                                multiline
-                                maxRows={4}
-                                onChange={handleChange}
-                                name="description"
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <input type="datetime-local"
-                                   onChange={handleChange}
-                                   name="creationDate"
-                                   class="custom-button"
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <input type="number"
-                                   onChange={handleChange}
-                                   name="duration"
-                                   placeholder="Durée du chat (heure)"
-                                   class="custom-button"
-                            />
-                        </Grid>
-                    </Grid>
-                </Box>
-                <button onClick={test} class="validate-button" >Ajouter</button>
-            </form>
+
     );
 }
+
 export default ScheduleChat;

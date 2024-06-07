@@ -34,42 +34,44 @@ body, #root{
 /***********************************************/
 /* LAYOUT */
 /***********************************************/
-header, footer{
-    height: 5%;
-    background-color: #184e5b;
-    color: #fff;
-}
+/*header, footer{*/
+/*    height: 5%;*/
+/*    background-color: #184e5b;*/
+/*    color: #fff;*/
+/*}*/
 
-nav{
-    height: 8%;
-    background-color: #7da7ad;
-}
+/*nav{*/
+/*    height: 8%;*/
+/*    background-color: #7da7ad;*/
+/*}*/
 
 
-aside{
-    width: 20%;
-}
+/*aside{*/
+/*    width: 20%;*/
+/*}*/
 
-main{
-    width: 80%;
-}
+/*main{*/
+/*    width: 80%;*/
+/*}*/
 
 /***********************************************/
 /* BOOTSTRAP OVERRIDE */
 /***********************************************/
-.navbar-brand, .nav-link {
-    color: #fff;
-}
+/*.navbar-brand, .nav-link {*/
+/*    color: #fff;*/
+/*}*/
 
-.sidebar {
-    position: relative;
-z-index: 1;
+.row {
+    display: flex;
+    flex-wrap: nowrap; /* Empêche les éléments de se replier en dessous l'un de l'autre */
 }
 
 .content {
     position: relative;
 z-index: 0;
+    padding: 1rem;
 overflow-x: hidden;
+    border-radius: 20px;
 }
 
 
@@ -134,40 +136,36 @@ overflow-x: hidden;
 
 
 .container {
-    display: flex; /* Utilise flexbox pour la disposition */
+    display: flex; /* Active Flexbox */
     min-height: 100vh; /* S'assure que le conteneur prend toute la hauteur de la vue */
-    margin: 0; /* Enlève les marges par défaut */
+    margin: 0; /* Supprime les marges */
 }
 
 .sidebar {
+    position: relative;
+    z-index: 1;
     flex: 0 0 250px; /* flex-grow, flex-shrink, flex-basis */
     background-color: #f0f0f0; /* Couleur de fond du panneau */
     border-radius: 20px;
     min-width: 300px;
     max-width: 400px;
     height: 100vh;
-    padding: 30px; /* Espacement à l'intérieur du panneau */
+    padding: 20px; /* Espacement à l'intérieur du panneau */
     box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Ombre pour un effet visuel */
 }
 
-.col-md-9 {
-    flex: 1; /* Prend le reste de l'espace disponible */
-    padding: 30px; /* Espacement à l'intérieur du contenu principal */
-}
 .sidebar-button {
-    background: none;
-border: none;
-color: #333;
-font-size: 1rem;
-    padding: 10px 0;
-width: 100%;
-text-align: left;
-cursor: pointer;
-    text-decoration: none;
+    display: block; /* Rend chaque lien en bloc pour remplir la sidebar */
+    margin: 5px 0; /* Ajoute de l'espacement vertical entre les boutons */
+    color: #333; /* Couleur du texte */
+    font-size: 17px;
+    text-decoration: none; /* Enlève le soulignement */
+    transition: background-color 0.3s; /* Animation lors du survol */
 }
 
 .sidebar-button:hover {
-
+    opacity: 70%; /* Changement de couleur lors du survol */
+    color: #333;
 }
 
 .sidebar-button:focus {
@@ -175,7 +173,6 @@ cursor: pointer;
 }
 
 .sidebar-button:active {
-    background-color: #dcdcdc;
 }
 
 .icon {
@@ -183,3 +180,4 @@ cursor: pointer;
     width: 20px; /* Largeur de l'icône */
     height: 20px; /* Hauteur de l'icône */
 }
+
