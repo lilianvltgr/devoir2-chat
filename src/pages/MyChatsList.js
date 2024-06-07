@@ -80,7 +80,7 @@ const ChatsList = () => {
                                             <IconButton edge="end" aria-label="comments" title="Supprimer">
                                                 <DeleteOutlineIcon></DeleteOutlineIcon>
                                             </IconButton>
-                                            <AddUserToChatDialog/>
+                                            <AddUserToChatDialog chatId={Chat.chatId}/>
 
                                         </ListItem>
                                         <Divider component="li"/>
