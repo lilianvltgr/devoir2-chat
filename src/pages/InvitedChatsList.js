@@ -16,6 +16,8 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 const InvitedChatsList = () => {
     const [Chats, setChats] = useState([]);
     let userId = sessionStorage.getItem("userId")
+
+
     if (userId !== undefined) {
         let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
         axios.get(requestUrl
@@ -27,6 +29,7 @@ const InvitedChatsList = () => {
             .then(response => {
                 (console.log("success" + response));
                 setChats(response.data)
+
             })
             .catch(error => console.error('Error:', error));
 
@@ -45,12 +48,6 @@ const InvitedChatsList = () => {
                                 <React.Fragment>
                                     <ListItem>
                                         <ListItemText primary={Chat.title} secondary={Chat.description}/>
-                                        <IconButton edge="end" aria-label="comments">
-                                            <DeleteOutlineIcon></DeleteOutlineIcon>
-                                        </IconButton>
-                                        <IconButton edge="end" aria-label="add people">
-                                            <PersonAddAltIcon></PersonAddAltIcon>
-                                        </IconButton>
                                     </ListItem>
                                     <Divider component="li" />
                                 </React.Fragment>

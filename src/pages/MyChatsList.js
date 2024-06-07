@@ -15,9 +15,37 @@ import Sidebar from "../components/Sidebar";
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const ChatsList= () => {
-
     const [Chats, setChats] = useState([]);
     let userId = sessionStorage.getItem("userId")
+
+    function handleDeleteButton(chatId) {
+        let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
+        axios.delete(requestUrl
+            , {
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+                (console.log("success" + response));
+            })
+            .catch(error => console.error('Error:', error));
+        requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
+        axios.delete(requestUrl
+            , {
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+                (console.log("success" + response));
+                window.location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+
+    }
+
+
     if (userId !== undefined) {
         let requestUrl = "http://localhost:8080/UserController/chatsCreatedBy/" + userId
         axios.get(requestUrl
@@ -46,7 +74,7 @@ const ChatsList= () => {
                                 <React.Fragment>
                                 <ListItem>
                                     <ListItemText primary={Chat.title} secondary={Chat.description}/>
-                                    <IconButton edge="end" aria-label="comments">
+                                    <IconButton edge="end" aria-label="comments" onClick={() => handleDeleteButton(Chat.chatId)}>
                                         <DeleteOutlineIcon></DeleteOutlineIcon>
                                     </IconButton>
                                     <IconButton edge="end" aria-label="add people">
