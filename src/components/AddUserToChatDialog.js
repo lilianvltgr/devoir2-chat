@@ -6,11 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
 import IconButton from "@mui/material/IconButton";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import axios from "axios";
+import axios, {request} from "axios";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import {Box, Divider, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select} from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {json} from "react-router-dom";
 
 const AddUserToChatDialog = (chatId) => {
     const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ const AddUserToChatDialog = (chatId) => {
         axios.get("http://localhost:8080/UserController/getAllActiveUsers"
             , {
                 headers: {
+                    "Retry-After": 3600,
                     'Access-Control-Allow-Origin': '*'
                 }
             })
@@ -35,6 +37,7 @@ const AddUserToChatDialog = (chatId) => {
         axios.get(requestUrl
             , {
                 headers: {
+                    "Retry-After": 3600,
                     'Access-Control-Allow-Origin': '*'
                 }
             })
@@ -53,23 +56,32 @@ const AddUserToChatDialog = (chatId) => {
     };
     const handleSelectChange = (event) => {
         setSelectedUsers(event.target.value);
+
     };
     const AddUsersToChat = () => {
-            let requestUrl = "http://localhost:8080/UserController/addUsersToChat"
-            axios.get(requestUrl
-                , {
-                    headers: {
-                        "Access-Control-Allow-Origin": "*",
-                        "Content-Type": "Application/json"
-                    }, params:{
-                        "userIds":JSON.stringify(SelectedUsers),
-                        "chatId":chatId.chatId
-                    }
-                })
-                .then(response => {
-                    console.log("success!");
-                })
-                .catch(error => console.error('Error:', error));
+        let userId = 0;
+        let requestUrl = ("http://localhost:8080/UserController/addUsersToChat?chatId=" + chatId.chatId)
+        while (userId < SelectedUsers.length) {
+            requestUrl = requestUrl + "&userIds=" + SelectedUsers[userId]
+            userId++;
+        }
+        axios.post(requestUrl
+            , {
+                headers: {
+                    "Retry-After": 3600,
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "Application/json"
+                }
+
+            })
+            .then(response => {
+                console.log("success!");
+            })
+            .catch(error => {
+                console.error('Error:', error)
+            });
+        setOpen(false);
+
     }
 
     const handleClose = () => {
@@ -81,7 +93,8 @@ const AddUserToChatDialog = (chatId) => {
             <IconButton edge="end" aria-label="add people" title="Gérer les invités" onClick={handleClickOpen}>
                 <PersonAddAltIcon/>
             </IconButton>
-            <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+            <Dialog disableEscapeKeyDown open={open} onClose={handleClose}
+                    maxWidth="md">
                 <DialogTitle>Fill the form</DialogTitle>
                 <DialogContent>
                     <React.Fragment>
@@ -96,8 +109,8 @@ const AddUserToChatDialog = (chatId) => {
                                 >
                                     {
                                         UsersNotInChat.map(User => (
-                                                    <MenuItem key={User.userId} value={User.userId}>
-                                                        {User.firstname}
+                                                <MenuItem key={User.userId} value={User.userId}>
+                                                    {User.firstname}
                                                 </MenuItem>
                                             )
                                         )}

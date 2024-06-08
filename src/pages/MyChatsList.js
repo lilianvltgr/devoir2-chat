@@ -26,6 +26,7 @@ const ChatsList = () => {
         axios.delete(requestUrl
             , {
                 headers: {
+                    "Retry-After": 3600,
                     'Access-Control-Allow-Origin': '*'
                 }
             })
@@ -36,6 +37,7 @@ const ChatsList = () => {
         axios.delete(requestUrl
             , {
                 headers: {
+                    "Retry-After": 3600,
                     'Access-Control-Allow-Origin': '*'
                 }
             })
@@ -51,6 +53,7 @@ const ChatsList = () => {
         axios.get(requestUrl
             , {
                 headers: {
+                    "Retry-After": 3600,
                     'Access-Control-Allow-Origin': '*'
                 }
             })
