@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton} from "@mui/material";
 import "../chat.css";
+import {useHistory, useNavigate} from 'react-router-dom';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -20,6 +21,11 @@ import AddUserToChatDialog from "../components/AddUserToChatDialog";
 const ChatsList = () => {
     const [Chats, setChats] = useState([]);
     let userId = sessionStorage.getItem("userId")
+
+    const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
+    const handleClick = (path) => {
+        navigate(path); // Utilise la fonction 'navigate' dans un handler
+    };
 
     function handleDeleteButton(chatId) {
         let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
@@ -72,8 +78,8 @@ const ChatsList = () => {
                             Mes chats
                         </Typography>
                         <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-                            <List>
-                                {Chats.map(Chat => (
+                            {Chats.map(Chat => (
+                            <List onClick={() => handleClick(`/chat/${Chat.chatId}`)}>
                                     <React.Fragment key={Chat.chatId}>
                                         <ListItem >
                                             <ListItemText primary={Chat.title} secondary={Chat.description}/>
@@ -85,8 +91,9 @@ const ChatsList = () => {
                                         </ListItem>
                                         <Divider component="li"/>
                                     </React.Fragment>
-                                ))}
+
                             </List>
+                            ))}
                         </Box>
                     </div>
                 </div>
