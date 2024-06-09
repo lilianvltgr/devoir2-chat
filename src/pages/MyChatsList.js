@@ -74,8 +74,8 @@ const ChatsList = () => {
                         <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                             <List>
                                 {Chats.map(Chat => (
-                                    <React.Fragment>
-                                        <ListItem>
+                                    <React.Fragment key={Chat.chatId}>
+                                        <ListItem >
                                             <ListItemText primary={Chat.title} secondary={Chat.description}/>
                                             <IconButton edge="end" aria-label="comments" title="Supprimer">
                                                 <DeleteOutlineIcon></DeleteOutlineIcon>

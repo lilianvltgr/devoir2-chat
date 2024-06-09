@@ -9,7 +9,17 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import axios, {request} from "axios";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import {Box, Divider, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select} from "@mui/material";
+import {
+    Box,
+    Divider,
+    FormControl,
+    FormHelperText,
+    InputLabel,
+    ListItemText,
+    MenuItem,
+    OutlinedInput,
+    Select
+} from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {json} from "react-router-dom";
 
@@ -18,7 +28,8 @@ const AddUserToChatDialog = (chatId) => {
     const [UsersNotInChat, setUsersNotInChat] = useState([]);
     const [UsersInChat, setUsersInChat] = useState([]);
     const [Users, setUsers] = useState([]);
-    const [SelectedUsers, setSelectedUsers] = useState([]);
+    const [SelectedAddUsers, setSelectedAddUsers] = useState([]);
+    const [SelectedRemoveUsers, setSelectedRemoveUsers] = useState([]);
     const userId = sessionStorage.getItem("userId");
     const getNotInvitedUsers = (chatId) => {
 
@@ -49,20 +60,22 @@ const AddUserToChatDialog = (chatId) => {
     };
     const handleClickOpen = () => {
         console.log("Ouverture !!");
-        console.log("chatId", chatId.chatId);
-
         getNotInvitedUsers(chatId);
         setOpen(true);
     };
-    const handleSelectChange = (event) => {
-        setSelectedUsers(event.target.value);
+    const handleAddSelectChange = (event) => {
+        setSelectedAddUsers(event.target.value);
+
+    };
+    const handleRemoveSelectChange = (event) => {
+        setSelectedRemoveUsers(event.target.value);
 
     };
     const AddUsersToChat = () => {
         let userId = 0;
         let requestUrl = ("http://localhost:8080/UserController/addUsersToChat?chatId=" + chatId.chatId)
-        while (userId < SelectedUsers.length) {
-            requestUrl = requestUrl + "&userIds=" + SelectedUsers[userId]
+        while (userId < SelectedAddUsers.length) {
+            requestUrl = requestUrl + "&userIds=" + SelectedAddUsers[userId]
             userId++;
         }
         axios.post(requestUrl
@@ -80,8 +93,30 @@ const AddUserToChatDialog = (chatId) => {
             .catch(error => {
                 console.error('Error:', error)
             });
-        setOpen(false);
 
+    }
+    const RemoveUsersToChat = () => {
+        let userId = 0;
+        let requestUrl = ("http://localhost:8080/UserController/deleteChatUsers?chatId=" + chatId.chatId)
+        while (userId < SelectedRemoveUsers.length) {
+            requestUrl = requestUrl + "&userIds=" + SelectedRemoveUsers[userId]
+            userId++;
+        }
+        axios.post(requestUrl
+            , {
+                headers: {
+                    "Retry-After": 3600,
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-Type": "Application/json"
+                }
+
+            })
+            .then(response => {
+                console.log("success!");
+            })
+            .catch(error => {
+                console.error('Error:', error)
+            });
     }
 
     const handleClose = () => {
@@ -100,22 +135,42 @@ const AddUserToChatDialog = (chatId) => {
                     <React.Fragment>
                         <Box component="form">
                             <FormControl sx={{m: 1, minWidth: 120}}>
-                                <InputLabel htmlFor="demo-dialog-native">User</InputLabel>
-                                <Select id="selectedUsers"
+                                <InputLabel htmlFor="demo-dialog-native">Utilisateurs</InputLabel>
+                                <Select id="SelectedAddUsers"
                                         multiple
-                                        value={SelectedUsers}
-                                        onChange={handleSelectChange}
+                                        value={SelectedAddUsers}
+                                        onChange={handleAddSelectChange}
                                     // input={<OutlinedInput label="Age" id="demo-dialog-native"/>}
                                 >
                                     {
                                         UsersNotInChat.map(User => (
                                                 <MenuItem key={User.userId} value={User.userId}>
-                                                    {User.firstname}
+                                                    {User.firstname} {User.lastname}
                                                 </MenuItem>
                                             )
                                         )}
                                 </Select>
-                            </FormControl></Box>
+                                <FormHelperText>Ajouter des utilisateurs au chat</FormHelperText>
+                            </FormControl>
+                            <FormControl sx={{m: 1, minWidth: 120}}>
+                                <InputLabel htmlFor="demo-dialog-native">Utilisateurs</InputLabel>
+                                <Select id="SelectedRemoveUsers"
+                                        multiple
+                                        value={SelectedRemoveUsers}
+                                        onChange={handleRemoveSelectChange}
+                                    // input={<OutlinedInput label="Age" id="demo-dialog-native"/>}
+                                >
+                                    {
+                                        UsersInChat.map(User => (
+                                                <MenuItem key={User.userId} value={User.userId}>
+                                                    {User.firstname} {User.lastname}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                </Select><FormHelperText>Supprimer des utilisateurs du
+                                chat</FormHelperText>
+                            </FormControl>
+                        </Box>
                     </React.Fragment>
                 </DialogContent>
                 <DialogActions>
@@ -124,7 +179,9 @@ const AddUserToChatDialog = (chatId) => {
                     </Button>
                     <Button onClick={AddUsersToChat} color="primary">
                         Ajouter
-                    </Button>
+                    </Button> <Button onClick={RemoveUsersToChat} color="primary">
+                    Supprimer
+                </Button>
                 </DialogActions>
             </Dialog>
         </div>

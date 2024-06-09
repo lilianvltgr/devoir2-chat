@@ -12,6 +12,7 @@ import ChatList from "./components/ChatList";
 import ScheduleChat from "./pages/ScheduleChat";
 import MyChatsList from "./pages/MyChatsList";
 import InvitedChatsList from "./pages/InvitedChatsList";
+import ClientChat from "./ChatsCom/Client.js";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
             <Route path="/schedule" element={<ScheduleChat />} />
             <Route path="/myChatsList" element={<MyChatsList />} />
             <Route path="/InvitedChatsList" element={<InvitedChatsList />} />
+            <Route path="/clientChat" element={<ClientChat />} />
         </Routes>
     </BrowserRouter>
 );

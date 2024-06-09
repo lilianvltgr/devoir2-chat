@@ -1,7 +1,8 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import MyChatsList from "../pages/MyChatsList"
+import InviteIcon from "../icons/invite-icon.svg";
 
 
 const Login = (props) => {
@@ -64,6 +65,9 @@ const Login = (props) => {
                 </div>
                 <button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</button>
             </form>
+            <Link to="/clientChat">
+                Client chat
+            </Link>
         </div>
 
     );
