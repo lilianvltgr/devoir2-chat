@@ -1,19 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import axios from "axios";
 
 function ChatPage() {
-    const { chatId } = useParams();
+    const {chatId} = useParams();
+    const [user, setUser] = useState([])
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState(""); // État pour le message en cours de saisie
     const [ws, setWs] = useState(null);
 
     useEffect(() => {
+        let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
+        axios.get(requestUrl
+            , {
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+                (console.log("success" + response));
+                setChats(response.data)
+
+            })
+            .catch(error => console.error('Error:', error));
+
         const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId}`);
 
         websocket.onopen = () => console.log("WebSocket Connected");
 
         websocket.onmessage = (event) => {
-            const newMessage = JSON.parse(event.data); // Supposant que le serveur envoie du JSON
+            const newMessage = event.data;
+            console.log("new message received : " + newMessage);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
         };
 
@@ -34,7 +51,11 @@ function ChatPage() {
 
     const handleSendMessage = () => {
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ content: message })); // Envoi du message comme JSON
+            let json = JSON.stringify({
+                message: message,  user: 'test'
+            });
+            console.log(json);
+            ws.send(json); // Envoi du message comme JSON
             setMessage(""); // Réinitialisation du champ de texte après l'envoi
         }
     };
@@ -42,7 +63,7 @@ function ChatPage() {
     return (
         <div>
             {messages.map((msg, index) => (
-                <p key={index}>{msg.content}</p> // Assure-toi que les messages ont une propriété 'content'
+                <p key={index}>{msg}</p>
             ))}
             <input
                 type="text"

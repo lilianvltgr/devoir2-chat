@@ -10,6 +10,7 @@ import Sidebar from "../components/Sidebar";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Header from "../components/Header";
+import {useNavigate} from "react-router-dom";
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -17,7 +18,10 @@ import Header from "../components/Header";
 const InvitedChatsList = () => {
     const [Chats, setChats] = useState([]);
     let userId = sessionStorage.getItem("userId")
-
+    const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
+    const handleClick = (path) => {
+        navigate(path); // Utilise la fonction 'navigate' dans un handler
+    };
 
     if (userId !== undefined) {
         let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
@@ -48,7 +52,8 @@ const InvitedChatsList = () => {
                                 {Chats.map(Chat => (
                                     <React.Fragment>
                                         <ListItem>
-                                            <ListItemText primary={Chat.title} secondary={Chat.description}/>
+                                            <ListItemText primary={Chat.title} secondary={Chat.description} onClick={() => handleClick(`/chat/${Chat.chatId}`)}/>
+
                                         </ListItem>
                                         <Divider component="li"/>
                                     </React.Fragment>

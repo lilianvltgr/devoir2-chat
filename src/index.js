@@ -12,7 +12,7 @@ import ScheduleChat from "./pages/ScheduleChat";
 import MyChatsList from "./pages/MyChatsList";
 import InvitedChatsList from "./pages/InvitedChatsList";
 import ClientChat from "./ChatsCom/Client.js";
-import ChatPage from "./components/src/ChatPage";
+import ChatPage from "./components/ChatPage";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
