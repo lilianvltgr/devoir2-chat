@@ -79,15 +79,14 @@ const ChatsList = () => {
                         </Typography>
                         <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                             {Chats.map(Chat => (
-                            <List onClick={() => handleClick(`/chat/${Chat.chatId}`)}>
+                            <List >
                                     <React.Fragment key={Chat.chatId}>
                                         <ListItem >
-                                            <ListItemText primary={Chat.title} secondary={Chat.description}/>
+                                            <ListItemText primary={Chat.title} secondary={Chat.description} onClick={() => handleClick(`/chat/${Chat.chatId}`)}/>
                                             <IconButton edge="end" aria-label="comments" title="Supprimer">
                                                 <DeleteOutlineIcon></DeleteOutlineIcon>
                                             </IconButton>
                                             <AddUserToChatDialog chatId={Chat.chatId}/>
-
                                         </ListItem>
                                         <Divider component="li"/>
                                     </React.Fragment>
