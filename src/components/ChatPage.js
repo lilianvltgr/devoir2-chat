@@ -4,13 +4,13 @@ import axios from "axios";
 
 function ChatPage() {
     const {chatId} = useParams();
-    const [user, setUser] = useState([])
+    const [user, setUser] = useState()
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState(""); // État pour le message en cours de saisie
     const [ws, setWs] = useState(null);
 
     useEffect(() => {
-        let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
+        let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
         axios.get(requestUrl
             , {
                 headers: {
@@ -18,15 +18,14 @@ function ChatPage() {
                 }
             })
             .then(response => {
-                (console.log("success" + response));
-                setChats(response.data)
-
+                setUser(response.data)
             })
             .catch(error => console.error('Error:', error));
 
         const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId}`);
 
-        websocket.onopen = () => console.log("WebSocket Connected");
+        websocket.onopen = () => {console.log("WebSocket Connected")
+        }
 
         websocket.onmessage = (event) => {
             const newMessage = event.data;
@@ -37,9 +36,7 @@ function ChatPage() {
         websocket.onerror = (error) => {
             console.log("WebSocket Error: ", error);
         };
-
         websocket.onclose = () => console.log("WebSocket Disconnected");
-
         setWs(websocket);
 
         return () => {
@@ -52,7 +49,7 @@ function ChatPage() {
     const handleSendMessage = () => {
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
             let json = JSON.stringify({
-                message: message,  user: 'test'
+                message: message,  user: user.lastname +" "+ user.firstname
             });
             console.log(json);
             ws.send(json); // Envoi du message comme JSON

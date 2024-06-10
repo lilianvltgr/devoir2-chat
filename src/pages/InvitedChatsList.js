@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton} from "@mui/material";
 import List from '@mui/material/List';
 import "../chat.css"
@@ -22,51 +22,54 @@ const InvitedChatsList = () => {
     const handleClick = (path) => {
         navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
+    useEffect(() => {
+        if (userId !== undefined) {
+            let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
+            axios.get(requestUrl
+                , {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                })
+                .then(response => {
+                    (console.log("success" + response));
+                    setChats(response.data)
 
-    if (userId !== undefined) {
-        let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
-        axios.get(requestUrl
-            , {
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                }
-            })
-            .then(response => {
-                (console.log("success" + response));
-                setChats(response.data)
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        else
+            return <Login></Login>
+    }, []);
 
-            })
-            .catch(error => console.error('Error:', error));
+    return (
+        <div className="container">
+            <Header/>
+            <div className="main-content">
+                <Sidebar/>
+                <div className="content">
+                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                        Mes invitations de chat
+                    </Typography>
+                    <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+                        <List>
+                            {Chats.map(Chat => (
+                                <React.Fragment>
+                                    <ListItem>
+                                        <ListItemText primary={Chat.title} secondary={Chat.description}
+                                                      onClick={() => handleClick(`/chat/${Chat.chatId}`)}/>
 
-        return (
-            <div className="container">
-                <Header/>
-                <div className="main-content">
-                    <Sidebar/>
-                    <div className="content">
-                        <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
-                            Mes invitations de chat
-                        </Typography>
-                        <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-                            <List>
-                                {Chats.map(Chat => (
-                                    <React.Fragment>
-                                        <ListItem>
-                                            <ListItemText primary={Chat.title} secondary={Chat.description} onClick={() => handleClick(`/chat/${Chat.chatId}`)}/>
+                                    </ListItem>
+                                    <Divider component="li"/>
+                                </React.Fragment>
+                            ))}
+                        </List>
 
-                                        </ListItem>
-                                        <Divider component="li"/>
-                                    </React.Fragment>
-                                ))}
-                            </List>
-
-                        </Box>
-                    </div>
+                    </Box>
                 </div>
             </div>
-        );
-    } else
-        return <Login></Login>
+        </div>
+    );
 }
 
 export default InvitedChatsList;
