@@ -27,6 +27,7 @@ const ChatsList = () => {
     const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
     const handleClick = (chatId) => {
         setChatId(chatId)
+        console.log("cliqué");
         // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
 
@@ -85,8 +86,9 @@ const ChatsList = () => {
                         Mes chats
                     </Typography>
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-                        {Chats.map(Chat => (
-                            <List>
+                        <List>
+                            {Chats.map(Chat => (
+
                                 <React.Fragment key={Chat.chatId}>
                                     <ListItem>
                                         <ListItemText primary={Chat.title} secondary={Chat.description}
@@ -99,8 +101,9 @@ const ChatsList = () => {
                                     <Divider component="li"/>
                                 </React.Fragment>
 
-                            </List>
-                        ))}
+                                ))}
+                        </List>
+
                     </Box>
                 </div>
                 <div className="content">

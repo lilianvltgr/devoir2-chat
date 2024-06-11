@@ -2,14 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from "axios";
 
-function ChatPage() {
-    const {chatId} = useParams();
+function ChatPage(chatId) {
+    // const {chatId} = useParams();
     const [user, setUser] = useState()
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState(""); // État pour le message en cours de saisie
     const [ws, setWs] = useState(null);
 
     useEffect(() => {
+        if(chatId.chatId){
         let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
         axios.get(requestUrl
             , {
@@ -22,8 +23,7 @@ function ChatPage() {
             })
             .catch(error => console.error('Error:', error));
 
-        const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId}`);
-
+        const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId.chatId}`);
         websocket.onopen = () => {console.log("WebSocket Connected")
         }
 
@@ -35,8 +35,12 @@ function ChatPage() {
 
         websocket.onerror = (error) => {
             console.log("WebSocket Error: ", error);
+            setMessages([]);
         };
-        websocket.onclose = () => console.log("WebSocket Disconnected");
+        websocket.onclose = () => {
+            console.log("WebSocket Disconnected");
+            setMessages([]);
+        };
         setWs(websocket);
 
         return () => {
@@ -44,14 +48,14 @@ function ChatPage() {
                 websocket.close();
             }
         };
-    }, [chatId]);
+        };
 
+    }, [chatId]);
     const handleSendMessage = () => {
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
             let json = JSON.stringify({
-                message: message,  user: user.lastname +" "+ user.firstname
+                message: message,  user: user.lastname +" "+ user.firstname, chatId:chatId.chatId
             });
-            console.log(json);
             ws.send(json); // Envoi du message comme JSON
             setMessage(""); // Réinitialisation du champ de texte après l'envoi
         }

@@ -54,7 +54,7 @@ const InvitedChatsList = () => {
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                         <List>
                             {Chats.map(Chat => (
-                                <React.Fragment>
+                                <React.Fragment key={Chat.chatId}>
                                     <ListItem>
                                         <ListItemText primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(`/chat/${Chat.chatId}`)}/>
