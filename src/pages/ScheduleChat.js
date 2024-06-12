@@ -37,12 +37,6 @@ function ScheduleChat() {
            chat, {headers : {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
             .then(response => (console.log("success" + response)))
             .catch(error => console.error('Error:', error));
-
-
-        //axios.get("http://localhost:8080/test/truc").then(res => {
-        // axios.get("http://localhost:8080/UserController/chatsCreatedBy/2").then(res => {
-        //     console.log(res)
-        // });
     };
 
     const test = () => {
@@ -54,7 +48,6 @@ function ScheduleChat() {
         <div className="container">
             <Header/>
             <div className="main-content">
-                <Sidebar/>
                 <div className="content">
                     <form onSubmit={handleSubmit}>
                         <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">

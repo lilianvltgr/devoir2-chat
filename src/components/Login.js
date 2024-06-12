@@ -65,9 +65,6 @@ const Login = (props) => {
                 </div>
                 <button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</button>
             </form>
-            {/*<Link to="/clientChat">*/}
-            {/*    Client chat*/}
-            {/*</Link>*/}
         </div>
 
     );

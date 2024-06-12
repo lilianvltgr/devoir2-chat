@@ -12,9 +12,6 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Header from "../components/Header";
 import {useNavigate} from "react-router-dom";
 import ChatPage from "../components/ChatPage";
-// import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const InvitedChatsList = () => {
     const [Chats, setChats] = useState([]);
@@ -23,10 +20,7 @@ const InvitedChatsList = () => {
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     let userId = sessionStorage.getItem("userId")
-    // const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
-    // const handleClick = (path) => {
-    //     navigate(path); // Utilise la fonction 'navigate' dans un handler
-    // };
+
     const handleClick = (chatId) => {
         setChatId(chatId)
         console.log("cliqué");
@@ -67,9 +61,8 @@ const InvitedChatsList = () => {
         <div className="container">
             <Header/>
             <div className="main-content">
-                <Sidebar/>
                 <div className="content">
-                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                    <Typography variant="h6" component="h6" mt={2} mb={3} justifyContent="center">
                         Mes invitations de chat
                     </Typography>
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
@@ -89,7 +82,7 @@ const InvitedChatsList = () => {
                             ))}
                         </List>
 
-                        <TablePagination rowsPerPageOptions={[5]}
+                        <TablePagination rowsPerPageOptions={[6]}
                                          component="div"
                                          count={Chats.length}
                                          rowsPerPage={rowsPerPage}
@@ -98,9 +91,10 @@ const InvitedChatsList = () => {
                                          onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </Box>
-                    <div className="content">
-                        <ChatPage chatId={ChatId}></ChatPage>
-                    </div>
+
+                </div>
+                <div>
+                    <ChatPage chatId={ChatId}></ChatPage>
                 </div>
             </div>
         </div>

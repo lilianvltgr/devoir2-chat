@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 import axios from "axios";
-
+import {Chip, TextField} from "@mui/material";
+import Button from "@mui/material/Button";
+import "../chat.css";
 function ChatPage(chatId) {
     // const {chatId} = useParams();
     const [user, setUser] = useState()
@@ -31,14 +33,14 @@ function ChatPage(chatId) {
 
         websocket.onmessage = (event) => {
             const newMessage = event.data;
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
+            setMessages((prevMessages) => [newMessage, ...prevMessages]);
             console.log("Message reçu : "+messages);
         };
 
         websocket.onerror = (error) => {
             console.log("WebSocket Error: ", error);
             setMessages([]);
-            console.log("Erreur : "+messages);
+            console.log("Erreur : "+ messages);
         };
         websocket.onclose = () => {
             console.log("WebSocket Disconnected");
@@ -67,18 +69,27 @@ function ChatPage(chatId) {
     };
 
     return (
-        <div>
-            {messages.map((msg, index) => (
-                <p key={index}>{msg}</p>
-            ))}
-            <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Write a message..."
-            />
-            <button onClick={handleSendMessage}>Send</button>
+        <div className="chat-container">
+            <div className="messages-container">
+                {messages.map((msg, index) => (
+                    <div key={index}>
+                        <Chip label={msg}/>
+                        <br/>
+                        <br/>
+                    </div>
+                ))}
+            </div>
+            <div className="input-container">
+                <TextField
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Ecrire un message..."
+                />
+                <Button onClick={handleSendMessage}>Envoyer</Button>
+            </div>
         </div>
+
     );
 }
 

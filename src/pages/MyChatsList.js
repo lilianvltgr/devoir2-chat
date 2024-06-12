@@ -1,8 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton, TablePagination} from "@mui/material";
 import "../chat.css";
-import {useHistory, useNavigate} from 'react-router-dom';
-
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
@@ -14,10 +12,6 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddUserToChatDialog from "../components/AddUserToChatDialog";
 import ChatPage from "../components/ChatPage";
-
-// import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const ChatsList = () => {
     const [Chats, setChats] = useState([]);
@@ -92,9 +86,9 @@ const ChatsList = () => {
         <div className="container">
             <Header/>
             <div className="main-content">
-                <Sidebar/>
+                {/*<Sidebar/>*/}
                 <div className="content">
-                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                    <Typography variant="h6" component="h6" mt={2} mb={3} justifyContent="center">
                         Mes chats
                     </Typography>
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
@@ -104,8 +98,8 @@ const ChatsList = () => {
                                     : Chats
                             ).map((Chat) => (
                                 <React.Fragment key={Chat.chatId}>
-                                    <ListItem>
-                                        <ListItemText primary={Chat.title} secondary={Chat.description}
+                                    <ListItem className="chat" >
+                                        <ListItemText   primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
                                         <IconButton edge="end" aria-label="comments" title="Supprimer">
                                             <DeleteOutlineIcon></DeleteOutlineIcon>
@@ -119,7 +113,7 @@ const ChatsList = () => {
                         </List>
 
                     </Box>
-                    <TablePagination rowsPerPageOptions={[5]}
+                    <TablePagination rowsPerPageOptions={[6]}
                                      component="div"
                                      count={Chats.length}
                                      rowsPerPage={rowsPerPage}
@@ -128,14 +122,12 @@ const ChatsList = () => {
                                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </div>
-                <div className="content">
+                <div>
                     <ChatPage chatId={ChatId}></ChatPage>
                 </div>
             </div>
         </div>
     );
-
-
 }
 export default ChatsList;
 
