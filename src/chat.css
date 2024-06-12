@@ -145,6 +145,7 @@ body, #root{
     flex-direction: column; /* Les éléments s'empilent verticalement */
     height: 100vh; /* Prend toute la hauteur de la vue */
     width: 100vw; /* Prend toute la largeur de la vue */
+    margin:0px;
 }
 
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton} from "@mui/material";
+import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton, TablePagination} from "@mui/material";
 import "../chat.css";
 import {useHistory, useNavigate} from 'react-router-dom';
 
@@ -22,6 +22,8 @@ import ChatPage from "../components/ChatPage";
 const ChatsList = () => {
     const [Chats, setChats] = useState([]);
     const [ChatId, setChatId] = useState("");
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     let userId = sessionStorage.getItem("userId")
 
     const handleClick = (chatId) => {
@@ -74,6 +76,18 @@ const ChatsList = () => {
             return <Login></Login>
     }, []);
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0); // Reset to the first page
+    };
+
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
+
+
     return (
         <div className="container">
             <Header/>
@@ -85,8 +99,10 @@ const ChatsList = () => {
                     </Typography>
                     <Box sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                         <List>
-                            {Chats.map(Chat => (
-
+                            {(rowsPerPage > 0
+                                    ? Chats.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    : Chats
+                            ).map((Chat) => (
                                 <React.Fragment key={Chat.chatId}>
                                     <ListItem>
                                         <ListItemText primary={Chat.title} secondary={Chat.description}
@@ -103,6 +119,14 @@ const ChatsList = () => {
                         </List>
 
                     </Box>
+                    <TablePagination rowsPerPageOptions={[5]}
+                                     component="div"
+                                     count={Chats.length}
+                                     rowsPerPage={rowsPerPage}
+                                     page={page}
+                                     onPageChange={handleChangePage}
+                                     onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </div>
                 <div className="content">
                     <ChatPage chatId={ChatId}></ChatPage>
