@@ -32,37 +32,42 @@ const AddUserToChatDialog = (chatId) => {
     const [SelectedRemoveUsers, setSelectedRemoveUsers] = useState([]);
     const userId = sessionStorage.getItem("userId");
     const getNotInvitedUsers = (chatId) => {
+        const usersRequest = axios.get("http://localhost:8080/UserController/getAllActiveUsers", {
+            headers: {
+                "Retry-After": 3600,
+                'Access-Control-Allow-Origin': '*'
+            }
+        });
 
-        axios.get("http://localhost:8080/UserController/getAllActiveUsers"
-            , {
-                headers: {
-                    "Retry-After": 3600,
-                    'Access-Control-Allow-Origin': '*'
-                }
-            })
-            .then(response => {
-                setUsers(response.data)
-            })
-            .catch(error => console.error('Error:', error));
-        let requestUrl = "http://localhost:8080/UserController/getUsersInChat/" + chatId.chatId
-        axios.get(requestUrl
-            , {
-                headers: {
-                    "Retry-After": 3600,
-                    'Access-Control-Allow-Origin': '*'
-                }
-            })
-            .then(response => {
-                setUsersInChat(response.data)
-            })
-            .catch(error => console.error('Error:', error));
-        setUsersNotInChat(Users.filter(item => (!UsersInChat.includes(item) && item.userId !== userId)))
+        const usersInChatRequest = axios.get(`http://localhost:8080/UserController/getUsersInChat/${chatId.chatId}`, {
+            headers: {
+                "Retry-After": 3600,
+                'Access-Control-Allow-Origin': '*'
+            }
+        });
+
+        Promise.all([usersRequest, usersInChatRequest]).then(values => {
+            const [allUsersResponse, usersInChatResponse] = values;
+            const allUsers = allUsersResponse.data;
+            const usersInChat = usersInChatResponse.data;
+
+            const usersNotInChat = allUsers.filter(user =>
+                !usersInChat.some(u => u.userId === user.userId) && user.userId !== userId
+            );
+            setUsers(allUsers);
+            setUsersInChat(usersInChat);
+            setUsersNotInChat(usersNotInChat);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     };
+
     const handleClickOpen = () => {
         console.log("Ouverture !!");
-        getNotInvitedUsers(chatId);
         setOpen(true);
+        getNotInvitedUsers(chatId);
     };
+
     const handleAddSelectChange = (event) => {
         setSelectedAddUsers(event.target.value);
 
