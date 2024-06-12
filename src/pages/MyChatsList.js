@@ -24,13 +24,11 @@ const ChatsList = () => {
     const [ChatId, setChatId] = useState("");
     let userId = sessionStorage.getItem("userId")
 
-    const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
     const handleClick = (chatId) => {
         setChatId(chatId)
         console.log("cliqué");
         // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
-
 
     useEffect(() => {
         function handleDeleteButton(chatId) {

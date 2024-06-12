@@ -25,21 +25,26 @@ function ChatPage(chatId) {
 
         const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId.chatId}`);
         websocket.onopen = () => {console.log("WebSocket Connected")
+            setMessages([]);
+            console.log("Ouverture : "+messages);
         }
 
         websocket.onmessage = (event) => {
             const newMessage = event.data;
-            console.log("new message received : " + newMessage);
             setMessages((prevMessages) => [...prevMessages, newMessage]);
+            console.log("Message reçu : "+messages);
         };
 
         websocket.onerror = (error) => {
             console.log("WebSocket Error: ", error);
             setMessages([]);
+            console.log("Erreur : "+messages);
         };
         websocket.onclose = () => {
             console.log("WebSocket Disconnected");
             setMessages([]);
+            console.log("Fermer : "+messages);
+
         };
         setWs(websocket);
 

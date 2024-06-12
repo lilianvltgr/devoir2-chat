@@ -11,16 +11,24 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Header from "../components/Header";
 import {useNavigate} from "react-router-dom";
+import ChatPage from "../components/ChatPage";
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const InvitedChatsList = () => {
     const [Chats, setChats] = useState([]);
+    const [ChatId, setChatId] = useState("");
+
     let userId = sessionStorage.getItem("userId")
-    const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
-    const handleClick = (path) => {
-        navigate(path); // Utilise la fonction 'navigate' dans un handler
+    // const navigate = useNavigate(); // useNavigate est appelé au niveau supérieur
+    // const handleClick = (path) => {
+    //     navigate(path); // Utilise la fonction 'navigate' dans un handler
+    // };
+    const handleClick = (chatId) => {
+        setChatId(chatId)
+        console.log("cliqué");
+        // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
     useEffect(() => {
         if (userId !== undefined) {
@@ -57,7 +65,7 @@ const InvitedChatsList = () => {
                                 <React.Fragment key={Chat.chatId}>
                                     <ListItem>
                                         <ListItemText primary={Chat.title} secondary={Chat.description}
-                                                      onClick={() => handleClick(`/chat/${Chat.chatId}`)}/>
+                                                      onClick={() => handleClick(Chat.chatId)}/>
 
                                     </ListItem>
                                     <Divider component="li"/>
@@ -66,6 +74,9 @@ const InvitedChatsList = () => {
                         </List>
 
                     </Box>
+                    <div className="content">
+                        <ChatPage chatId={ChatId}></ChatPage>
+                    </div>
                 </div>
             </div>
         </div>
