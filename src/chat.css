@@ -215,11 +215,34 @@ body {
     font-size: 35px; /* Taille de la police */
 }
 
+.chat {
+    transition: background-color 0.4s ease;
+}
+
+.chat:hover {
+    border-radius: 2px;
+    background-color: #F3F9FF;
+    color: #156DC2;
+}
+.chat:active{
+    background-color: #CDE3F8;
+}
+
+/* MESSAGES */
+
 .chat-container {
     display: flex;
     height: 90vh; /* Adjust this height as necessary */
     flex-direction: column;
     overflow: hidden;
+    justify-content: center;
+    margin-left: 1rem;
+    width: 900px;
+}
+.messages-container .MuiChip-root {
+    padding: 22px 15px; /* Augmente le padding pour rendre le Chip plus grand */
+    font-size: 1rem; /* Ajustez cette valeur selon vos besoins */
+    justify-content: flex-start;
 }
 
 
@@ -243,4 +266,30 @@ body {
 .input-container TextField {
     flex: 1;
     margin-right: 10px;
+}
+
+.chat-render {
+    height: 100vh; /* Utilisez 100vh pour prendre toute la hauteur de la vue */
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    display: flex;
+    flex-direction: column; /* Organise les éléments enfants en colonne */
+    align-items: flex-start; /* Alignement des enfants à gauche */
+    width: 100%; /* Prend toute la largeur disponible */
+}
+
+.current-user {
+    align-items: flex-end; /* Alignement des enfants à droite pour les messages de l'utilisateur */
+}
+
+.current-user-chip {
+    background-color: #CDE3F8 !important;
+
+}
+.user-info {
+    color : grey;
+    font-size: 0.7rem;
 }

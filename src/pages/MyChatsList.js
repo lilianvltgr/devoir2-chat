@@ -122,7 +122,7 @@ const ChatsList = () => {
                                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </div>
-                <div>
+                <div className="chat-render">
                     <ChatPage chatId={ChatId}></ChatPage>
                 </div>
             </div>
