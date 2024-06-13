@@ -25,34 +25,32 @@ const ChatsList = () => {
         console.log("cliqué");
         // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
-
+    function handleDeleteButton(chatId) {
+        let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
+        axios.delete(requestUrl
+            , {
+                headers: {
+                    "Retry-After": 3600,
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+            })
+            .catch(error => console.error('Error:', error));
+        requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
+        axios.delete(requestUrl
+            , {
+                headers: {
+                    "Retry-After": 3600,
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+                window.location.reload();
+            })
+            .catch(error => console.error('Error:', error));
+    }
     useEffect(() => {
-        function handleDeleteButton(chatId) {
-            let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
-            axios.delete(requestUrl
-                , {
-                    headers: {
-                        "Retry-After": 3600,
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                })
-                .then(response => {
-                })
-                .catch(error => console.error('Error:', error));
-            requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
-            axios.delete(requestUrl
-                , {
-                    headers: {
-                        "Retry-After": 3600,
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                })
-                .then(response => {
-                    window.location.reload();
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
         if (userId !== undefined) {
             let requestUrl = "http://localhost:8080/UserController/chatsCreatedBy/" + userId
             axios.get(requestUrl
@@ -78,9 +76,7 @@ const ChatsList = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0); // Reset to the first page
     };
-
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
-
 
     return (
         <div className="container">
@@ -101,17 +97,15 @@ const ChatsList = () => {
                                     <ListItem className="chat" >
                                         <ListItemText   primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
-                                        <IconButton edge="end" aria-label="comments" title="Supprimer">
+                                        <IconButton onClick={() => handleDeleteButton(Chat.chatId)} edge="end" aria-label="comments" title="Supprimer">
                                             <DeleteOutlineIcon></DeleteOutlineIcon>
                                         </IconButton>
                                         <AddUserToChatDialog chatId={Chat.chatId}/>
                                     </ListItem>
                                     <Divider component="li"/>
                                 </React.Fragment>
-
                                 ))}
                         </List>
-
                     </Box>
                     <TablePagination rowsPerPageOptions={[6]}
                                      component="div"
@@ -122,13 +116,9 @@ const ChatsList = () => {
                                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </div>
-                <div>
                     <ChatPage chatId={ChatId}></ChatPage>
-                </div>
             </div>
         </div>
     );
 }
 export default ChatsList;
-
-

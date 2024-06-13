@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import MyChatsList from "../pages/MyChatsList"
 import InviteIcon from "../icons/invite-icon.svg";
+import {Typography} from "@mui/material";
 
 
 const Login = (props) => {
@@ -46,7 +47,11 @@ const Login = (props) => {
     }
 
     return (
-        <div className="login-container">
+        <div className="login-container" >
+        <Typography variant="h3" component="h2">
+            Chat-App
+        </Typography><br></br>
+
             <form>
                 <div className="mb-3">
                     <label htmlFor="mail" className="form-label">Email</label>
