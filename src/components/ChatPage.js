@@ -13,55 +13,58 @@ function ChatPage(chatId) {
 
     useEffect(() => {
         if(chatId.chatId){
-        let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
-        axios.get(requestUrl
-            , {
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                }
-            })
-            .then(response => {
-                setUser(response.data)
-            })
-            .catch(error => console.error('Error:', error));
+            let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
+            axios.get(requestUrl
+                , {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                })
+                .then(response => {
+                    setUser(response.data)
+                })
+                .catch(error => console.error('Error:', error));
 
-        const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId.chatId}`);
-        websocket.onopen = () => {console.log("WebSocket Connected")
-            setMessages([]);
-            console.log("Ouverture : "+messages);
-        }
-
-        websocket.onmessage = (event) => {
-            const newMessage = event.data;
-            setMessages((prevMessages) => [newMessage, ...prevMessages]);
-            console.log("Message reçu : "+messages);
-        };
-
-        websocket.onerror = (error) => {
-            console.log("WebSocket Error: ", error);
-            setMessages([]);
-            console.log("Erreur : "+ messages);
-        };
-        websocket.onclose = () => {
-            console.log("WebSocket Disconnected");
-            setMessages([]);
-            console.log("Fermer : "+messages);
-
-        };
-        setWs(websocket);
-
-        return () => {
-            if (websocket) {
-                websocket.close();
+            const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId.chatId}`);
+            websocket.onopen = () => {console.log("WebSocket Connected")
+                setMessages([]);
+                console.log("Ouverture : "+messages);
             }
-        };
+
+            websocket.onmessage = (event) => {
+                const newMessage = JSON.parse(event.data); // Parse le JSON reçu
+                setMessages((prevMessages) => [newMessage, ...prevMessages]);
+                console.log("Received message: ", newMessage);
+            };
+
+            websocket.onerror = (error) => {
+                console.log("WebSocket Error: ", error);
+                setMessages([]);
+                console.log("Erreur : "+ messages);
+            };
+            websocket.onclose = () => {
+                console.log("WebSocket Disconnected");
+                setMessages([]);
+                console.log("Fermer : "+messages);
+
+            };
+            setWs(websocket);
+
+            return () => {
+                if (websocket) {
+                    websocket.close();
+                }
+            };
         };
 
     }, [chatId]);
     const handleSendMessage = () => {
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
             let json = JSON.stringify({
-                message: message,  user: user.lastname +" "+ user.firstname, chatId:chatId.chatId
+                message: message,
+                user: user.lastname +" "+ user.firstname,
+                userId: sessionStorage.getItem("userId"), // Inclure userId
+                chatId: chatId.chatId
             });
             ws.send(json); // Envoi du message comme JSON
             setMessage(""); // Réinitialisation du champ de texte après l'envoi
@@ -71,13 +74,16 @@ function ChatPage(chatId) {
     return (
         <div className="chat-container">
             <div className="messages-container">
-                {messages.map((msg, index) => (
-                    <div key={index}>
-                        <Chip label={msg}/>
-                        <br/>
-                        <br/>
-                    </div>
-                ))}
+                {messages.map((msg, index) => {
+                    const isCurrentUserMessage = msg.userId === sessionStorage.getItem("userId")
+                    return (
+                        <div key={index} className={`message ${isCurrentUserMessage ? 'current-user' : ''}`}>
+                            <div className="user-info">{msg.user}</div>
+                            <Chip label={msg.message} className={isCurrentUserMessage ? 'current-user-chip' : ''}/>
+                            <br/>
+                        </div>
+                    );
+                })}
             </div>
             <div className="input-container">
                 <TextField
@@ -94,3 +100,4 @@ function ChatPage(chatId) {
 }
 
 export default ChatPage;
+

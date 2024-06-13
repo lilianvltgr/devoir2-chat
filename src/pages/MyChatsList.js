@@ -76,7 +76,9 @@ const ChatsList = () => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0); // Reset to the first page
     };
+
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
+
 
     return (
         <div className="container">
@@ -97,15 +99,17 @@ const ChatsList = () => {
                                     <ListItem className="chat" >
                                         <ListItemText   primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
-                                        <IconButton onClick={() => handleDeleteButton(Chat.chatId)} edge="end" aria-label="comments" title="Supprimer">
+                                        <IconButton edge="end" aria-label="comments" title="Supprimer">
                                             <DeleteOutlineIcon></DeleteOutlineIcon>
                                         </IconButton>
                                         <AddUserToChatDialog chatId={Chat.chatId}/>
                                     </ListItem>
                                     <Divider component="li"/>
                                 </React.Fragment>
+
                                 ))}
                         </List>
+
                     </Box>
                     <TablePagination rowsPerPageOptions={[6]}
                                      component="div"
@@ -116,9 +120,13 @@ const ChatsList = () => {
                                      onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </div>
+                <div className="chat-render">
                     <ChatPage chatId={ChatId}></ChatPage>
+                </div>
             </div>
         </div>
     );
 }
 export default ChatsList;
+
+

@@ -72,7 +72,7 @@ const InvitedChatsList = () => {
                                     : Chats
                             ).map((Chat) => (
                                 <React.Fragment key={Chat.chatId}>
-                                    <ListItem>
+                                    <ListItem className="chat">
                                         <ListItemText primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
 
