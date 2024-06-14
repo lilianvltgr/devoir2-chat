@@ -10,6 +10,7 @@ import Login from "../components/Login";
 import Header from "../components/Header";
 import AddUserToChatDialog from "../components/AddUserToChatDialog";
 import ChatPage from "../components/ChatPage";
+import chatIcon from '../icons/chat-icon.svg';
 
 const ChatsList = () => {
     const [Chats, setChats] = useState([]);
@@ -24,29 +25,31 @@ const ChatsList = () => {
         // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
     function handleDeleteButton(chatId) {
-        let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
-        axios.delete(requestUrl
-            , {
-                headers: {
-                    "Retry-After": 3600,
-                    'Access-Control-Allow-Origin': '*'
-                }
-            })
-            .then(response => {
-            })
-            .catch(error => console.error('Error:', error));
-        requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
-        axios.delete(requestUrl
-            , {
-                headers: {
-                    "Retry-After": 3600,
-                    'Access-Control-Allow-Origin': '*'
-                }
-            })
-            .then(response => {
-                window.location.reload();
-            })
-            .catch(error => console.error('Error:', error));
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer ce chat ? Cette action est irréversible.")) {
+            let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
+            axios.delete(requestUrl
+                , {
+                    headers: {
+                        "Retry-After": 3600,
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                })
+                .then(response => {
+                })
+                .catch(error => console.error('Error:', error));
+            requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
+            axios.delete(requestUrl
+                , {
+                    headers: {
+                        "Retry-After": 3600,
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                })
+                .then(response => {
+                    window.location.reload();
+                })
+                .catch(error => console.error('Error:', error));
+        }
     }
     useEffect(() => {
         if (userId !== undefined) {
@@ -107,10 +110,11 @@ const ChatsList = () => {
                                     : Chats
                             ).map((Chat) => (
                                 <React.Fragment key={Chat.chatId}>
-                                    <ListItem className="chat" >
-                                        <ListItemText   primary={Chat.title} secondary={Chat.description}
+                                    <ListItem className="chat">
+                                        <ListItemText primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
-                                        <IconButton edge="end" aria-label="comments" title="Supprimer" onClick={() => handleDeleteButton(Chat.chatId)}>
+                                        <IconButton edge="end" aria-label="comments" title="Supprimer"
+                                                    onClick={() => handleDeleteButton(Chat.chatId)}>
                                             <DeleteOutlineIcon></DeleteOutlineIcon>
                                         </IconButton>
                                         <AddUserToChatDialog chatId={Chat.chatId}/>
@@ -118,7 +122,7 @@ const ChatsList = () => {
                                     <Divider component="li"/>
                                 </React.Fragment>
 
-                                ))}
+                            ))}
                         </List>
 
                     </Box>
@@ -132,7 +136,17 @@ const ChatsList = () => {
                     />
                 </div>
                 <div className="chat-render">
-                    <ChatPage chatId={ChatId}></ChatPage>
+                    {ChatId ? (
+                        <ChatPage chatId={ChatId}/>
+                    ) : (
+                        <Box classname="select-page">
+                            {/*<Typography variant="h6" component="h6" className="select-chat-title">*/}
+                            {/*    Veuillez sélectionner un chat*/}
+                            {/*</Typography>*/}
+                            <img src={chatIcon} alt="Chat Icon" className="select-chat-icon" />
+                        </Box>
+                    )}
+
                 </div>
             </div>
         </div>

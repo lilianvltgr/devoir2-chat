@@ -101,27 +101,29 @@ const AddUserToChatDialog = (chatId) => {
 
     }
     const RemoveUsersToChat = () => {
-        let userId = 0;
-        let requestUrl = ("http://localhost:8080/UserController/deleteChatUsers?chatId=" + chatId.chatId)
-        while (userId < SelectedRemoveUsers.length) {
-            requestUrl = requestUrl + "&userIds=" + SelectedRemoveUsers[userId]
-            userId++;
-        }
-        axios.post(requestUrl
-            , {
-                headers: {
-                    "Retry-After": 3600,
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-Type": "Application/json"
-                }
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+            let userId = 0;
+            let requestUrl = ("http://localhost:8080/UserController/deleteChatUsers?chatId=" + chatId.chatId)
+            while (userId < SelectedRemoveUsers.length) {
+                requestUrl = requestUrl + "&userIds=" + SelectedRemoveUsers[userId]
+                userId++;
+            }
+            axios.post(requestUrl
+                , {
+                    headers: {
+                        "Retry-After": 3600,
+                        "Access-Control-Allow-Origin": "*",
+                        "Content-Type": "Application/json"
+                    }
 
-            })
-            .then(response => {
-                console.log("success!");
-            })
-            .catch(error => {
-                console.error('Error:', error)
-            });
+                })
+                .then(response => {
+                    console.log("success!");
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                });
+        }
     }
 
     const handleClose = () => {

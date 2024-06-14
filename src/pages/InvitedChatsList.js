@@ -12,6 +12,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Header from "../components/Header";
 import {useNavigate} from "react-router-dom";
 import ChatPage from "../components/ChatPage";
+import chatIcon from "../icons/chat-icon.svg";
 
 const InvitedChatsList = () => {
     const [Chats, setChats] = useState([]);
@@ -105,8 +106,18 @@ const InvitedChatsList = () => {
                     </Box>
 
                 </div>
-                <div>
-                    <ChatPage chatId={ChatId}></ChatPage>
+                <div className="chat-render">
+                    {ChatId ? (
+                        <ChatPage chatId={ChatId}/>
+                    ) : (
+                        <Box classname="select-page">
+                            {/*<Typography variant="h6" component="h6" className="select-chat-title">*/}
+                            {/*    Veuillez sélectionner un chat*/}
+                            {/*</Typography>*/}
+                            <img src={chatIcon} alt="Chat Icon" className="select-chat-icon"/>
+                        </Box>
+                    )}
+
                 </div>
             </div>
         </div>

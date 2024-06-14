@@ -68,7 +68,14 @@ body {
     width: 100%;
     outline: none;
 }
-
+.main-content-schedule {
+    display: flex;
+    overflow: auto;
+    flex-grow: 1; /* Utilise tout l'espace restant après le header */
+    width: 100%;
+    outline: none;
+    margin-left: 30px;
+}
 
 .custom-button {
     background-color: white;
@@ -98,8 +105,8 @@ body {
 }
 
 .validate-button {
-    background-color: lightgrey;
-    color: grey;
+    background-color: whitesmoke;
+    color: gray;
     border-style: solid;
     border-width: 1px;
     border-color: grey;
@@ -114,19 +121,20 @@ body {
     border-radius: 4px;
     cursor: pointer;
     outline: none;
+    transition: background-color 0.4s ease;
 }
 
 .validate-button:hover {
     /*border-color: black;*/
     /*background-color: lightslategrey;*/
     /*color: black;*/
-    opacity: 75%;
-    color : black;
+    background-color: #F3F9FF;
+    color : #156DC2;
     border-color: black;
 }
 
 .validate-button:active {
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    background-color: #CDE3F8;
 }
 
 .container {
@@ -232,15 +240,26 @@ body {
 
 .chat-container {
     display: flex;
-    height: 90vh; /* Adjust this height as necessary */
     flex-direction: column;
-    overflow: hidden;
-    justify-content: center;
-    margin-left: 1rem;
-    width: 900px;
+    height: 90vh; /* Adaptez cette hauteur au besoin */
+    position: relative; /* Nécessaire pour la position absolue des enfants */
+    width: 100%; /* Adaptez la largeur au besoin */
+    overflow: hidden; /* Empêche le débordement externe */
 }
+
+.messages-container {
+    flex: 1; /* Prend tout l'espace disponible */
+    display: flex;
+    flex-direction: column-reverse; /* Empile les messages du bas vers le haut */
+    overflow-y: auto; /* Active le défilement */
+    padding: 10px;
+    margin-bottom: 40px;
+    margin-left: 20px;
+    width: 970px/* Espace pour la barre d'entrée, ajustez selon la hauteur de votre barre d'entrée */
+}
+
 .messages-container .MuiChip-root {
-    padding: 22px 15px; /* Augmente le padding pour rendre le Chip plus grand */
+    padding: 22px 3px 22px 3px; /* Augmente le padding pour rendre le Chip plus grand */
     font-size: 1rem; /* Ajustez cette valeur selon vos besoins */
     justify-content: flex-start;
 }
@@ -251,7 +270,6 @@ body {
     border-top: 1px solid #ccc;
     box-sizing: border-box;
     width: 100%;
-
 }
 
 .input-container TextField {
@@ -266,7 +284,6 @@ body {
 .chat-render {
     height: 100vh; /* Utilisez 100vh pour prendre toute la hauteur de la vue */
     display: flex;
-    flex-direction: column-reverse;
 }
 
 .message {
@@ -287,4 +304,13 @@ body {
 .user-info {
     color : grey;
     font-size: 0.7rem;
+}
+.select-chat-icon {
+    width: 190%;
+    margin-left: 5rem;
+}
+.select-chat-title {
+    font-size: 28px;  /* Increased font size */
+    margin-top: 2rem;
+    text-align: center;  /* Center the text horizontally */
 }

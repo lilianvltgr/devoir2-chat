@@ -6,6 +6,7 @@ import Header from "../components/Header";
 // import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Alert } from '@mui/material';
 
 function ScheduleChat() {
     const [chat, setChat] = useState({
@@ -16,6 +17,8 @@ function ScheduleChat() {
         duration: 0,
         creatorId: sessionStorage.getItem("userId")
     });
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
 
     const handleChange = (e) => {
 
@@ -35,7 +38,10 @@ function ScheduleChat() {
         e.preventDefault();
         axios.post("http://localhost:8080/UserController/createChat",
            chat, {headers : {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
-            .then(response => (console.log("success" + response)))
+            .then(response => {
+                console.log("success" + response);
+                setIsSubmitted(true);
+            })
             .catch(error => console.error('Error:', error));
     };
 
@@ -47,8 +53,12 @@ function ScheduleChat() {
 
         <div className="container">
             <Header/>
-            <div className="main-content">
-                <div className="content">
+            {isSubmitted && (
+                <Alert sx={{ mt: 2, borderRadius: 2, backgroundColor: '#CDE3F8' }} severity="success">
+                    Le Chat a été ajouté avec succès.
+                </Alert>
+            )}
+            <div className="main-content-schedule">
                     <form onSubmit={handleSubmit}>
                         <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
                             Planifier un chat
@@ -102,7 +112,6 @@ function ScheduleChat() {
                         </Box>
                         <button onClick={test} className="validate-button">Ajouter</button>
                     </form>
-                </div>
             </div>
             </div>
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import {Chip, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import "../chat.css";
+
 function ChatPage(chatId) {
     // const {chatId} = useParams();
     const [user, setUser] = useState()
@@ -33,7 +34,7 @@ function ChatPage(chatId) {
 
             websocket.onmessage = (event) => {
                 const newMessage = JSON.parse(event.data); // Parse le JSON reçu
-                setMessages((prevMessages) => [newMessage, ...prevMessages]);
+                setMessages((prevMessages) => [newMessage,...prevMessages]);
                 console.log("Received message: ", newMessage);
             };
 
