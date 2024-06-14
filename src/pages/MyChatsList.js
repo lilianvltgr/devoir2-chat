@@ -5,10 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import ScheduleChat from "./ScheduleChat";
 import Login from "../components/Login";
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import AddUserToChatDialog from "../components/AddUserToChatDialog";
 import ChatPage from "../components/ChatPage";
@@ -61,7 +58,15 @@ const ChatsList = () => {
                     }
                 })
                 .then(response => {
-                    setChats(response.data)
+                    var allChats = response.data;
+                    let chat;
+                    //TODO Finir en ajoutant une vérification de la date et de la duration
+                    allChats.forEach(chat => {
+                        console.log(chat.creationDate);
+                        console.log(chat.duration);
+                        setChats((prevChats) => [chat, ...prevChats]);
+                    });
+                    setChats(Chats.slice(1))
                 })
                 .catch(error => console.error('Error:', error));
         } else
@@ -78,7 +83,6 @@ const ChatsList = () => {
     };
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
-
 
     return (
         <div className="container">
@@ -99,7 +103,7 @@ const ChatsList = () => {
                                     <ListItem className="chat" >
                                         <ListItemText   primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
-                                        <IconButton edge="end" aria-label="comments" title="Supprimer">
+                                        <IconButton edge="end" aria-label="comments" title="Supprimer" onClick={() => handleDeleteButton(Chat.chatId)}>
                                             <DeleteOutlineIcon></DeleteOutlineIcon>
                                         </IconButton>
                                         <AddUserToChatDialog chatId={Chat.chatId}/>

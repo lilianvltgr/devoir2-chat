@@ -266,12 +266,12 @@ body {
 .chat-render {
     height: 100vh; /* Utilisez 100vh pour prendre toute la hauteur de la vue */
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 
 .message {
     display: flex;
-    flex-direction: column; /* Organise les éléments enfants en colonne */
+    flex-direction: column-reverse; /* Organise les éléments enfants en colonne */
     align-items: flex-start; /* Alignement des enfants à gauche */
     width: 100%; /* Prend toute la largeur disponible */
 }
