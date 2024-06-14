@@ -36,8 +36,20 @@ const InvitedChatsList = () => {
                     }
                 })
                 .then(response => {
-                    (console.log("success" + response));
-                    setChats(response.data)
+                    const allChats = response.data;
+                    let goodChats = []
+                    const today = new Date().toLocaleString();
+                    allChats.forEach(chat => {
+                        let startDate = new Date(chat.creationDate).toLocaleString();
+                        let endDate = new Date(chat.creationDate);
+                        endDate.setHours(endDate.getHours() + chat.duration);
+                        endDate = endDate.toLocaleString();
+                        if(startDate < today && today < endDate){
+                            console.log(chat.title);
+                            goodChats.push(chat)
+                        }
+                    });
+                    setChats(goodChats)
 
                 })
                 .catch(error => console.error('Error:', error));

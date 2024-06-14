@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton, TablePagination} from "@mui/material";
+
 import "../chat.css";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -58,15 +59,21 @@ const ChatsList = () => {
                     }
                 })
                 .then(response => {
-                    var allChats = response.data;
-                    let chat;
-                    //TODO Finir en ajoutant une vérification de la date et de la duration
+                    const allChats = response.data;
+                    let goodChats = []
+                    const today = new Date().toLocaleString();
                     allChats.forEach(chat => {
-                        console.log(chat.creationDate);
-                        console.log(chat.duration);
-                        setChats((prevChats) => [chat, ...prevChats]);
+                        let startDate = new Date(chat.creationDate).toLocaleString();
+                        let endDate = new Date(chat.creationDate);
+                        endDate.setHours(endDate.getHours() + chat.duration);
+                        endDate = endDate.toLocaleString();
+                        if(startDate < today && today < endDate){
+                            console.log(chat.title);
+                            goodChats.push(chat)
+                        }
                     });
-                    setChats(Chats.slice(1))
+                    setChats(goodChats)
+
                 })
                 .catch(error => console.error('Error:', error));
         } else
