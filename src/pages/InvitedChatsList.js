@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton, TablePagination} from "@mui/material";
+import {Typography, Box, ListItemText, Divider, TablePagination} from "@mui/material";
 import List from '@mui/material/List';
 import "../chat.css"
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
-import ScheduleChat from "./ScheduleChat";
 import Login from "../components/Login";
-import Sidebar from "../components/Sidebar";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import Header from "../components/Header";
-import {useNavigate} from "react-router-dom";
 import ChatPage from "../components/ChatPage";
 import chatIcon from "../icons/chat-icon.svg";
 
@@ -19,13 +14,10 @@ const InvitedChatsList = () => {
     const [ChatId, setChatId] = useState("");
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
     let userId = sessionStorage.getItem("userId")
-
     const handleClick = (chatId) => {
         setChatId(chatId)
         console.log("cliqué");
-        // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
     useEffect(() => {
         if (userId !== undefined) {
@@ -45,7 +37,7 @@ const InvitedChatsList = () => {
                         let endDate = new Date(chat.creationDate);
                         endDate.setHours(endDate.getHours() + chat.duration);
                         endDate = endDate.toLocaleString();
-                        if(startDate < today && today < endDate){
+                        if (startDate < today && today < endDate) {
                             console.log(chat.title);
                             goodChats.push(chat)
                         }
@@ -54,8 +46,7 @@ const InvitedChatsList = () => {
 
                 })
                 .catch(error => console.error('Error:', error));
-        }
-        else
+        } else
             return <Login></Login>
     }, []);
 
@@ -68,8 +59,6 @@ const InvitedChatsList = () => {
         setPage(0); // Reset to the first page
     };
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
-
-
     return (
         <div className="container">
             <Header/>
@@ -111,9 +100,6 @@ const InvitedChatsList = () => {
                         <ChatPage chatId={ChatId}/>
                     ) : (
                         <Box classname="select-page">
-                            {/*<Typography variant="h6" component="h6" className="select-chat-title">*/}
-                            {/*    Veuillez sélectionner un chat*/}
-                            {/*</Typography>*/}
                             <img src={chatIcon} alt="Chat Icon" className="select-chat-icon"/>
                         </Box>
                     )}

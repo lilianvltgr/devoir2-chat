@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
 import axios from "axios";
 import {Chip, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
@@ -13,7 +12,7 @@ function ChatPage(chatId) {
     const [ws, setWs] = useState(null);
 
     useEffect(() => {
-        if(chatId.chatId){
+        if (chatId.chatId) {
             let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
             axios.get(requestUrl
                 , {
@@ -25,45 +24,40 @@ function ChatPage(chatId) {
                     setUser(response.data)
                 })
                 .catch(error => console.error('Error:', error));
-
             const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId.chatId}`);
-            websocket.onopen = () => {console.log("WebSocket Connected")
+            websocket.onopen = () => {
+                console.log("WebSocket Connected")
                 setMessages([]);
-                console.log("Ouverture : "+messages);
+                console.log("Ouverture : " + messages);
             }
-
             websocket.onmessage = (event) => {
                 const newMessage = JSON.parse(event.data); // Parse le JSON reçu
-                setMessages((prevMessages) => [newMessage,...prevMessages]);
+                setMessages((prevMessages) => [newMessage, ...prevMessages]);
                 console.log("Received message: ", newMessage);
             };
-
             websocket.onerror = (error) => {
                 console.log("WebSocket Error: ", error);
                 setMessages([]);
-                console.log("Erreur : "+ messages);
+                console.log("Erreur : " + messages);
             };
             websocket.onclose = () => {
                 console.log("WebSocket Disconnected");
                 setMessages([]);
-                console.log("Fermer : "+messages);
-
+                console.log("Fermer : " + messages);
             };
             setWs(websocket);
-
             return () => {
                 if (websocket) {
                     websocket.close();
                 }
             };
-        };
-
+        }
     }, [chatId]);
     const handleSendMessage = () => {
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
             let json = JSON.stringify({
                 message: message,
-                user: user.lastname +" "+ user.firstname,
+                user: user.lastname + " " + user.firstname,
                 userId: sessionStorage.getItem("userId"), // Inclure userId
                 chatId: chatId.chatId
             });
@@ -71,7 +65,6 @@ function ChatPage(chatId) {
             setMessage(""); // Réinitialisation du champ de texte après l'envoi
         }
     };
-
     return (
         <div className="chat-container">
             <div className="messages-container">
@@ -96,7 +89,6 @@ function ChatPage(chatId) {
                 <Button onClick={handleSendMessage}>Envoyer</Button>
             </div>
         </div>
-
     );
 }
 

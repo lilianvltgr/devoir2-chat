@@ -1,121 +1,121 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {TextField, Typography, Grid, Box} from "@mui/material";
 import axios from "axios";
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-// import {DateField, DateTimePicker, TimeField, MultiInputTimeRangeField} from "@mui/x-date-pickers-pro";
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Alert } from '@mui/material';
+import {Alert} from '@mui/material';
+import Button from "@mui/material/Button";
 
 function ScheduleChat() {
     const [chat, setChat] = useState({
-
-        title: 'test',
-        description: 'test',
-        creationDate: new Date("1010-10-10"),
+        title: "",
+        description: '',
+        creationDate: "",
         duration: 0,
         creatorId: sessionStorage.getItem("userId")
     });
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
-
+    const [isSubmitted, setIsSubmitted] = useState([false, ""]);
     const handleChange = (e) => {
-
         console.log("---> handle...")
-
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setChat(prevChat => ({
             ...prevChat,
             [name]: value
-            // pour le time prendre le premier element du MultiInputTimeRangeField
-            // faire cas special pour duration -> calculer temps entre heure début et heure fin
         }));
         console.log(chat);
     };
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(chat);
+        if (chat.title === "") {
+            alert("Le titre du chat ne peut être vide");
+            return;
+        }
+        if (!chat.creationDate) {
+            alert("Choisissez une date de début");
+            return;
+        }
+        if (chat.duration <= 0) {
+            alert("La durée doit être superieure à 0");
+            return;
+        }
         axios.post("http://localhost:8080/UserController/createChat",
-           chat, {headers : {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
+            chat, {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
             .then(response => {
                 console.log("success" + response);
-                setIsSubmitted(true);
+                setIsSubmitted([true, chat.title]);
             })
             .catch(error => console.error('Error:', error));
     };
 
-    const test = () => {
-        console.log(chat)
-    }
-
     return (
-
         <div className="container">
             <Header/>
-            {isSubmitted && (
-                <Alert sx={{ mt: 2, borderRadius: 2, backgroundColor: '#CDE3F8' }} severity="success">
-                    Le Chat a été ajouté avec succès.
+            {isSubmitted[0] && (
+                <Alert sx={{mt: 2, margin: 2, borderRadius: 2, backgroundColor: '#CDE3F8'}} severity="success">
+                    Le Chat "{isSubmitted[1]}" a été ajouté avec succès.
                 </Alert>
             )}
             <div className="main-content-schedule">
-                    <form onSubmit={handleSubmit}>
-                        <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
-                            Planifier un chat
-                        </Typography>
-                        <Box
-                            component="form"
-                            sx={{
-                                '& .MuiTextField-root': {m: 1, width: '25ch'},
-                            }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <Grid container rowSpacing={1}>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        required
-                                        id="outlined-required"
-                                        label="Required"
-                                        placeholder="Titre"
-                                        onChange={handleChange}
-                                        name="title"
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField
-                                        id="outlined-multiline-flexible"
-                                        label="Multiline"
-                                        placeholder="Description"
-                                        multiline
-                                        maxRows={4}
-                                        onChange={handleChange}
-                                        name="description"
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <input type="datetime-local"
-                                           onChange={handleChange}
-                                           name="creationDate"
-                                           className="custom-button"
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <input type="number"
-                                           onChange={handleChange}
-                                           name="duration"
-                                           placeholder="Durée du chat (heure)"
-                                           className="custom-button"
-                                    />
-                                </Grid>
+                <form onSubmit={handleSubmit}>
+                    <Typography variant="h3" component="h2" mt={2} mb={3} justifyContent="center">
+                        Planifier un chat
+                    </Typography>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': {m: 1, width: '25ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <Grid container rowSpacing={1}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Titre"
+                                    placeholder="Titre"
+                                    onChange={handleChange}
+                                    name="title"
+                                />
                             </Grid>
-                        </Box>
-                        <button onClick={test} className="validate-button">Ajouter</button>
-                    </form>
-            </div>
-            </div>
+                            <Grid item xs={6}>
+                                <TextField
+                                    id="outlined-multiline-flexible"
+                                    label="Description"
+                                    placeholder="Description"
+                                    multiline
+                                    maxRows={4}
+                                    onChange={handleChange}
+                                    name="description"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <p style={{marginBottom: 0}}> Date de début du chat</p>
 
-
+                                <input type="datetime-local"
+                                       style={{marginTop: 0}}
+                                       onChange={handleChange}
+                                       name="creationDate"
+                                       className="custom-button"
+                                       placeholder="Date et heure de début"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <input type="number"
+                                       onChange={handleChange}
+                                       name="duration"
+                                       placeholder="Durée du chat (heure)"
+                                       className="custom-button"
+                                />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    <br></br>
+                    <Button type="Submit" style={{margin: 12}} variant="contained"> Ajouter</Button>
+                </form>
+            </div>
+        </div>
     );
 }
 

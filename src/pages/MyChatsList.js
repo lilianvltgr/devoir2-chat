@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {TextField, Typography, Grid, Box, ListItemText, Divider, IconButton, TablePagination} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Typography, Box, ListItemText, Divider, IconButton, TablePagination} from "@mui/material";
 
 import "../chat.css";
 import List from '@mui/material/List';
@@ -22,7 +22,6 @@ const ChatsList = () => {
     const handleClick = (chatId) => {
         setChatId(chatId)
         console.log("cliqué");
-        // navigate(path); // Utilise la fonction 'navigate' dans un handler
     };
     function handleDeleteButton(chatId) {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce chat ? Cette action est irréversible.")) {
@@ -34,7 +33,7 @@ const ChatsList = () => {
                         'Access-Control-Allow-Origin': '*'
                     }
                 })
-                .then(response => {
+                .then(() => {
                 })
                 .catch(error => console.error('Error:', error));
             requestUrl = "http://localhost:8080/UserController/deleteChat/" + chatId
@@ -45,7 +44,7 @@ const ChatsList = () => {
                         'Access-Control-Allow-Origin': '*'
                     }
                 })
-                .then(response => {
+                .then(() => {
                     window.location.reload();
                 })
                 .catch(error => console.error('Error:', error));
@@ -124,7 +123,6 @@ const ChatsList = () => {
 
                             ))}
                         </List>
-
                     </Box>
                     <TablePagination rowsPerPageOptions={[6]}
                                      component="div"
@@ -140,13 +138,9 @@ const ChatsList = () => {
                         <ChatPage chatId={ChatId}/>
                     ) : (
                         <Box classname="select-page">
-                            {/*<Typography variant="h6" component="h6" className="select-chat-title">*/}
-                            {/*    Veuillez sélectionner un chat*/}
-                            {/*</Typography>*/}
                             <img src={chatIcon} alt="Chat Icon" className="select-chat-icon" />
                         </Box>
                     )}
-
                 </div>
             </div>
         </div>
