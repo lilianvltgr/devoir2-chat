@@ -14,6 +14,10 @@ const Header = () => {
         window.location.href = "/Login";
         console.log("test");
     }
+
+    const handleAdminClick = () => {
+        window.location.href = "http://localhost:8080/AdminController/connectedAdmin";
+    };
     return (
         <header className="app-header">
             <img src={AppIcon} alt="Logo" style={{height: '50px'}}/>
@@ -31,6 +35,7 @@ const Header = () => {
                     <img src={InviteIcon} alt="Invitations"/>
                     Invitations
                 </Link>
+                <button onClick={handleAdminClick}>Go to Admin Page</button>
             </div>
             <IconButton className="IconButton" on aria-label="exit" color="primary" onClick={logout}>
                 <ExitToAppIcon></ExitToAppIcon>

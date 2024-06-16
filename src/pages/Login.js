@@ -36,6 +36,42 @@ const Login = (props) => {
                 console.log(err)
             })
     }
+
+    /*const handleLogin = (event) => {
+        event.preventDefault();
+        // Utilisez POST au lieu de GET pour la sécurité
+        let requestUrl = `http://localhost:8080/UserController/authentification`;
+        axios.post(requestUrl, {
+            mail: mail,
+            password: password
+        }, {
+            withCredentials: true,  // pour cookies
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => {
+                console.log("userId" + res.data)
+                if (res.data !== -1) {
+                    sessionStorage.setItem("userId", res.data)
+                    console.log("connecté")
+                    setErrorConnection(false);
+
+                    if (res.headers.authorization) {
+                        console.log("token = " + res.headers.authorization)
+                        sessionStorage.setItem("token", res.headers.authorization)
+                    }
+                    window.location.href = '/MyChatsList';
+                } else {
+                    setErrorConnection(true);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }*/
+
     return (
         <div className="login-container">
             <Typography variant="h3" component="h2">
