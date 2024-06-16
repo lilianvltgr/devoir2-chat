@@ -17,7 +17,7 @@ const Header = () => {
     }
 
     const handleAdminClick = () => {
-        window.location.href = "http://localhost:8080/AdminController/connectedAdmin";
+        window.location.href = "http://localhost:8080/AdminController";
     };
     return (
         <header className="app-header">

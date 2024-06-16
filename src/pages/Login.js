@@ -9,9 +9,10 @@ const Login = (props) => {
     const handleLogin = (event) => {
         event.preventDefault();
         let requestUrl = `http://localhost:8080/UserController/authentification?mail=${mail}&password=${password}`
-        axios.get(requestUrl, {
+        axios.post(requestUrl, {
             headers:
                 {
+                    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
                     'Access-Control-Allow-Origin': '*'
                 }
         })
