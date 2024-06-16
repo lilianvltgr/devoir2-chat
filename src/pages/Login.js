@@ -8,7 +8,7 @@ const Login = (props) => {
     const [errorConnection, setErrorConnection] = useState(false)
     const handleLogin = (event) => {
         event.preventDefault();
-        let requestUrl = "http://localhost:8080/UserController/getUserByMail?mail=" + mail
+        let requestUrl = `http://localhost:8080/UserController/authentification?mail=${mail}&password=${password}`
         axios.get(requestUrl, {
             headers:
                 {
@@ -16,9 +16,9 @@ const Login = (props) => {
                 }
         })
             .then(res => {
-                console.log("user" + res.data)
-                if (res.data["password"] === password) {
-                    sessionStorage.setItem("userId", res.data["userId"])
+                console.log("userId" + res.data)
+                if (res.data !== -1) {
+                    sessionStorage.setItem("userId", res.data)
                     console.log("connecté")
                     setErrorConnection(false);
                     // Token JWT
