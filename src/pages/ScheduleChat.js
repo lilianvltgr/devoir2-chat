@@ -91,7 +91,8 @@ function ScheduleChat() {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <p style={{marginBottom: 0}}> Date de début du chat</p>
+                                <p style={{marginBottom: 0, marginLeft: 12, color: "grey"}}> Date de début du chat</p>
+
 
                                 <input type="datetime-local"
                                        style={{marginTop: 0}}
