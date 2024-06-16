@@ -283,7 +283,11 @@ body {
     margin-right: 10px;
 }
 .app-header > .MuiIconButton-root {
-    color: red;
+    color: red !important;
+    margin-left: auto;
+}
+.app-header > .MuiButtonBase-root {
+    color: grey;
     margin-left: auto;
 }
 

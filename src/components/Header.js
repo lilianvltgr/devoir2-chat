@@ -7,6 +7,7 @@ import PersoIcon from "../icons/perso-icon.svg";
 import InviteIcon from "../icons/invite-icon.svg";
 import {IconButton} from "@mui/material";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Button from "@mui/material/Button";
 
 const Header = () => {
     const logout = () => {
@@ -35,8 +36,8 @@ const Header = () => {
                     <img src={InviteIcon} alt="Invitations"/>
                     Invitations
                 </Link>
-                <button onClick={handleAdminClick}>Go to Admin Page</button>
             </div>
+            <Button onClick={handleAdminClick}>Administration</Button>
             <IconButton className="IconButton" on aria-label="exit" color="primary" onClick={logout}>
                 <ExitToAppIcon></ExitToAppIcon>
             </IconButton>
