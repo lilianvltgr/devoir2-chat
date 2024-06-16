@@ -4,13 +4,12 @@ import {Chip, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import "../chat.css";
 
-function ChatPage(chatId) {
+function ChatComponent(chatId) {
     // const {chatId} = useParams();
     const [user, setUser] = useState()
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState(""); // État pour le message en cours de saisie
     const [ws, setWs] = useState(null);
-
     useEffect(() => {
         if (chatId.chatId) {
             let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
@@ -92,5 +91,5 @@ function ChatPage(chatId) {
     );
 }
 
-export default ChatPage;
+export default ChatComponent;
 

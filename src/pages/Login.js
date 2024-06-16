@@ -6,11 +6,8 @@ const Login = (props) => {
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
     const [errorConnection, setErrorConnection] = useState(false)
-    console.log(sessionStorage);
     const handleLogin = (event) => {
         event.preventDefault();
-        console.log("mail = " + mail)
-        console.log("password = " + password)
         let requestUrl = "http://localhost:8080/UserController/getUserByMail?mail=" + mail
         axios.get(requestUrl, {
             headers:

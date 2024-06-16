@@ -4,9 +4,9 @@ import List from '@mui/material/List';
 import "../chat.css"
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
-import Login from "../components/Login";
+import Login from "./Login";
 import Header from "../components/Header";
-import ChatPage from "../components/ChatPage";
+import ChatComponent from "../components/ChatComponent";
 import chatIcon from "../icons/chat-icon.svg";
 
 const InvitedChatsList = () => {
@@ -97,7 +97,7 @@ const InvitedChatsList = () => {
                 </div>
                 <div className="chat-render">
                     {ChatId ? (
-                        <ChatPage chatId={ChatId}/>
+                        <ChatComponent chatId={ChatId}/>
                     ) : (
                         <Box classname="select-page">
                             <img src={chatIcon} alt="Chat Icon" className="select-chat-icon"/>

@@ -6,10 +6,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import axios from "axios";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import Login from "../components/Login";
+import Login from "./Login";
 import Header from "../components/Header";
-import AddUserToChatDialog from "../components/AddUserToChatDialog";
-import ChatPage from "../components/ChatPage";
+import ChatUsersGestionDialog from "../components/ChatUsersGestionDialog";
+import ChatComponent from "../components/ChatComponent";
 import chatIcon from '../icons/chat-icon.svg';
 
 const ChatsList = () => {
@@ -116,7 +116,7 @@ const ChatsList = () => {
                                                     onClick={() => handleDeleteButton(Chat.chatId)}>
                                             <DeleteOutlineIcon></DeleteOutlineIcon>
                                         </IconButton>
-                                        <AddUserToChatDialog chatId={Chat.chatId}/>
+                                        <ChatUsersGestionDialog chatId={Chat.chatId}/>
                                     </ListItem>
                                     <Divider component="li"/>
                                 </React.Fragment>
@@ -135,7 +135,7 @@ const ChatsList = () => {
                 </div>
                 <div className="chat-render">
                     {ChatId ? (
-                        <ChatPage chatId={ChatId}/>
+                        <ChatComponent chatId={ChatId}/>
                     ) : (
                         <Box classname="select-page">
                             <img src={chatIcon} alt="Chat Icon" className="select-chat-icon" />

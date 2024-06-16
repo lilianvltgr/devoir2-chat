@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-const AddUserToChatDialog = (chatId) => {
+const ChatUsersGestionDialog = (chatId) => {
     const [open, setOpen] = useState(false);
     const [UsersNotInChat, setUsersNotInChat] = useState([]);
     const [UsersInChat, setUsersInChat] = useState([]);
@@ -173,4 +173,4 @@ const AddUserToChatDialog = (chatId) => {
         </div>
     );
 };
-export default AddUserToChatDialog;
+export default ChatUsersGestionDialog;
