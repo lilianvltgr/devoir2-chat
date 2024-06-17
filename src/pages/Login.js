@@ -21,11 +21,16 @@ const Login = (props) => {
                 if (res.data !== -1) {
                     sessionStorage.setItem("userId", res.data)
                     console.log("connecté")
+                    let endSessionTime = new Date();
+                    endSessionTime.setMinutes(endSessionTime.getMinutes()+30);
+                    endSessionTime = endSessionTime.toLocaleString();
+                    sessionStorage.setItem("endSessionTime", endSessionTime);
                     setErrorConnection(false);
                     // Token JWT
                     if (res.headers.authorization) {
                         console.log("token = " + res.headers.authorization)
                         sessionStorage.setItem("token", res.headers.authorization)
+
                     }
                     window.location.href = '/MyChatsList';
                 } else {

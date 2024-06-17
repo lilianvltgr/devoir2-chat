@@ -10,6 +10,14 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Button from "@mui/material/Button";
 
 const Header = () => {
+    var today= new Date().toLocaleString();
+    console.log(sessionStorage.getItem("userId"))
+    if(sessionStorage.getItem("endSessionTime")<today || !sessionStorage.getItem("userId")){
+        window.location.href = "http://localhost:3000/";
+        sessionStorage.clear();
+        console.log("fin de la session");
+    }
+
     const logout = () => {
         sessionStorage.clear();
         window.location.href = "/Login";

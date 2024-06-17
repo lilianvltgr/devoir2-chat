@@ -6,6 +6,14 @@ import "../chat.css";
 
 function ChatComponent(chatId) {
     // const {chatId} = useParams();
+    let today= new Date().toLocaleString();
+    if(sessionStorage.getItem("endSessionTime")<today || !sessionStorage.getItem("userId")){
+        window.location.href = "http://localhost:3000/";
+        sessionStorage.clear();
+        console.log("fin de la session");
+    }
+    else
+        console.log("session encore ouverte");
     const [user, setUser] = useState()
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState(""); // État pour le message en cours de saisie
@@ -53,6 +61,8 @@ function ChatComponent(chatId) {
         }
     }, [chatId]);
     const handleSendMessage = () => {
+
+
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
             let json = JSON.stringify({
                 message: message,
