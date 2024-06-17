@@ -2,7 +2,15 @@ import React, {useState} from "react";
 import axios from "axios";
 import {Typography} from "@mui/material";
 
-const Login = (props) => {
+/**
+ * Login page component handles user authentication for the application.
+ * It provides a form where users can enter their email and password.
+ * The component submits these credentials to a server endpoint
+ * and handles the response by setting session storage and managing authentication states.
+ *
+ * @returns {JSX.Element} A form for user login.
+ */
+const Login = () => {
     const [mail, setMail] = useState('')
     const [password, setPassword] = useState('')
     const [errorConnection, setErrorConnection] = useState(false)

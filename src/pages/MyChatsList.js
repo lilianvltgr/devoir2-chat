@@ -12,6 +12,12 @@ import ChatUsersGestionDialog from "../components/ChatUsersGestionDialog";
 import ChatComponent from "../components/ChatComponent";
 import chatIcon from '../icons/chat-icon.svg';
 
+/**
+ * Page component that renders the personnal Chats List of the connected user.
+ * The user is identified thanks to its userId stored in the sessionStorage.
+ *
+ * @returns {JSX.Element} A list of chats.
+ */
 const ChatsList = () => {
     const [Chats, setChats] = useState([]);
     const [ChatId, setChatId] = useState("");

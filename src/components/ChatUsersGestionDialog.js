@@ -16,6 +16,14 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
+/**
+ * ChatUsersGestionDialog provides an interface for managing user participation in a specific chat session.
+ * It renders a dialog box where a user can add or remove participants from one of their personal chat sessions.
+ *
+ * @param {Object} chatId - Contains the chatId to identify the specific chat session.
+ * @returns {JSX.Element} A modal dialog component that allows the user to manage participants in the chat.
+ */
+
 const ChatUsersGestionDialog = (chatId) => {
     const [open, setOpen] = useState(false);
     const [UsersNotInChat, setUsersNotInChat] = useState([]);

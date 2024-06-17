@@ -4,6 +4,12 @@ import {Chip, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import "../chat.css";
 
+/**
+ * ChatComponent handles the chat functionality, including message display and sending within a given frontend session.
+ * It interacts with both local session storage and backend services to fetch and display user and message data.
+ *
+ * @param {Object} chatId - Contains the chatId to identify the specific chat session.
+ */
 function ChatComponent(chatId) {
     // const {chatId} = useParams();
     let today= new Date().toLocaleString();
@@ -60,6 +66,11 @@ function ChatComponent(chatId) {
             };
         }
     }, [chatId]);
+
+    /**
+     * Handles sending a message over the WebSocket connection
+     * if message content exists and socket is open.
+     */
     const handleSendMessage = () => {
 
 

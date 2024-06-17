@@ -9,6 +9,13 @@ import Header from "../components/Header";
 import ChatComponent from "../components/ChatComponent";
 import chatIcon from "../icons/chat-icon.svg";
 
+/**
+ * Page component that renders the invited Chats List of the connected user,
+ * that is the Chats in which the user was added.
+ * The user is identified thanks to its userId stored in the sessionStorage.
+ *
+ * @returns {JSX.Element} A list of chats.
+ */
 const InvitedChatsList = () => {
     const [Chats, setChats] = useState([]);
     const [ChatId, setChatId] = useState("");

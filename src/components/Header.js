@@ -12,6 +12,13 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 import ThreePIcon from '@mui/icons-material/ThreeP';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 
+/**
+ * Header component that is used in all the application and allows the user
+ * to navigate to the different routes of the app with several buttons.
+ * They lead respectively to ScheduleChat, MyChatsList, InvitedChatsList and Login.
+ *
+ * @returns {JSX.Element} a header used in all the app.
+ */
 const Header = () => {
     var today= new Date().toLocaleString();
     console.log(sessionStorage.getItem("userId"))

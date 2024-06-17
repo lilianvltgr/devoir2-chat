@@ -5,6 +5,14 @@ import Header from "../components/Header";
 import {Alert} from '@mui/material';
 import Button from "@mui/material/Button";
 
+/**
+ * Page component that renders a form to create a new Chat,
+ * thanks to multiple attributes to fill : title, description, creationDate and duration.
+ * The component submits these credentials to a server endpoint
+ * and handles the response by rendering a success message.
+ *
+ * @returns {JSX.Element} A form for chat scheduling.
+ */
 function ScheduleChat() {
     const [chat, setChat] = useState({
         title: "",
