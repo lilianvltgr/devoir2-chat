@@ -19,6 +19,7 @@ import chatIcon from '../icons/chat-icon.svg';
  * @returns {JSX.Element} A list of chats.
  */
 const ChatsList = () => {
+    // Hooks initialisation
     const [Chats, setChats] = useState([]);
     const [ChatId, setChatId] = useState("");
     const [page, setPage] = useState(0);
@@ -27,9 +28,11 @@ const ChatsList = () => {
 
     const handleClick = (chatId) => {
         setChatId(chatId)
-        console.log("cliqué");
     };
+
+    // Function that delete a chat when the delete button has been clcked on
     function handleDeleteButton(chatId) {
+        //Confirmation of the delete action
         if (window.confirm("Êtes-vous sûr de vouloir supprimer ce chat ? Cette action est irréversible.")) {
             let requestUrl = "http://localhost:8080/UserController/deleteChatUser/" + chatId
             axios.delete(requestUrl
@@ -51,54 +54,53 @@ const ChatsList = () => {
                     }
                 })
                 .then(() => {
+                    // reload to avoid displaying the deleted chat
                     window.location.reload();
                 })
                 .catch(error => console.error('Error:', error));
         }
     }
-    useEffect(() => {
-        if (userId !== undefined) {
-            let requestUrl = "http://localhost:8080/UserController/chatsCreatedBy/" + userId
-            axios.get(requestUrl
-                , {
-                    headers: {
-                        "Retry-After": 3600,
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                })
-                .then(response => {
-                    const allChats = response.data;
-                    let goodChats = []
-                    const today = new Date().toLocaleString();
-                    allChats.forEach(chat => {
-                        let startDate = new Date(chat.creationDate).toLocaleString();
-                        let endDate = new Date(chat.creationDate);
-                        endDate.setHours(endDate.getHours() + chat.duration);
-                        endDate = endDate.toLocaleString();
-                        if(startDate < today && today < endDate){
-                            console.log(chat.title);
-                            goodChats.push(chat)
-                        }
-                    });
-                    setChats(goodChats)
 
-                })
-                .catch(error => console.error('Error:', error));
-        } else
-            return <Login></Login>
+    // Code that runs at the start of the page to get chats owned by the connected user
+    useEffect(() => {
+        let requestUrl = "http://localhost:8080/UserController/chatsCreatedBy/" + userId
+        axios.get(requestUrl
+            , {
+                headers: {
+                    "Retry-After": 3600,
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+                const allChats = response.data;
+                let goodChats = []
+                const today = new Date().toLocaleString();
+                // keeping chats that are in today's range
+                allChats.forEach(chat => {
+                    let startDate = new Date(chat.creationDate).toLocaleString();
+                    let endDate = new Date(chat.creationDate);
+                    endDate.setHours(endDate.getHours() + chat.duration);
+                    endDate = endDate.toLocaleString();
+                    if (startDate < today && today < endDate) {
+                        console.log(chat.title);
+                        goodChats.push(chat)
+                    }
+                });
+                setChats(goodChats)
+
+            })
+            .catch(error => console.error('Error:', error));
     }, []);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0); // Reset to the first page
     };
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
-
     return (
         <div className="container">
             <Header/>
@@ -126,7 +128,6 @@ const ChatsList = () => {
                                     </ListItem>
                                     <Divider component="li"/>
                                 </React.Fragment>
-
                             ))}
                         </List>
                     </Box>
@@ -144,7 +145,7 @@ const ChatsList = () => {
                         <ChatComponent chatId={ChatId}/>
                     ) : (
                         <Box classname="select-page">
-                            <img src={chatIcon} alt="Chat Icon" className="select-chat-icon" />
+                            <img src={chatIcon} alt="Chat Icon" className="select-chat-icon"/>
                         </Box>
                     )}
                 </div>

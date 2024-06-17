@@ -17,6 +17,7 @@ import chatIcon from "../icons/chat-icon.svg";
  * @returns {JSX.Element} A list of chats.
  */
 const InvitedChatsList = () => {
+    // Hooks initialisation
     const [Chats, setChats] = useState([]);
     const [ChatId, setChatId] = useState("");
     const [page, setPage] = useState(0);
@@ -24,48 +25,46 @@ const InvitedChatsList = () => {
     let userId = sessionStorage.getItem("userId")
     const handleClick = (chatId) => {
         setChatId(chatId)
-        console.log("cliqué");
     };
+    // Code that only runs at the beginning of the app
     useEffect(() => {
-        if (userId !== undefined) {
-            let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
-            axios.get(requestUrl
-                , {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*'
+        // HTTP request to get chat the user is invited to
+        let requestUrl = "http://localhost:8080/UserController/InvitedChatsFor/" + userId
+        axios.get(requestUrl
+            , {
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(response => {
+                // Getting chats that are at the good date and duration
+                const allChats = response.data;
+                //goodChats are chats to display at the end
+                let goodChats = [];
+                const today = new Date().toLocaleString();
+                allChats.forEach(chat => {
+                    let startDate = new Date(chat.creationDate).toLocaleString();
+                    let endDate = new Date(chat.creationDate);
+                    endDate.setHours(endDate.getHours() + chat.duration);
+                    endDate = endDate.toLocaleString();
+                    // If today is in the range of the chat, it is added to good chats
+                    if (startDate < today && today < endDate) {
+                        console.log(chat.title);
+                        goodChats.push(chat);
                     }
-                })
-                .then(response => {
-                    const allChats = response.data;
-                    let goodChats = []
-                    const today = new Date().toLocaleString();
-                    allChats.forEach(chat => {
-                        let startDate = new Date(chat.creationDate).toLocaleString();
-                        let endDate = new Date(chat.creationDate);
-                        endDate.setHours(endDate.getHours() + chat.duration);
-                        endDate = endDate.toLocaleString();
-                        if (startDate < today && today < endDate) {
-                            console.log(chat.title);
-                            goodChats.push(chat)
-                        }
-                    });
-                    setChats(goodChats)
-
-                })
-                .catch(error => console.error('Error:', error));
-        } else
-            return <Login></Login>
+                });
+                setChats(goodChats)
+            })
+            .catch(error => console.error('Error:', error));
     }, []);
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0); // Reset to the first page
     };
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, Chats.length - page * rowsPerPage);
     return (
         <div className="container">
             <Header/>
@@ -84,13 +83,11 @@ const InvitedChatsList = () => {
                                     <ListItem className="chat">
                                         <ListItemText primary={Chat.title} secondary={Chat.description}
                                                       onClick={() => handleClick(Chat.chatId)}/>
-
                                     </ListItem>
                                     <Divider component="li"/>
                                 </React.Fragment>
                             ))}
                         </List>
-
                         <TablePagination rowsPerPageOptions={[6]}
                                          component="div"
                                          count={Chats.length}
@@ -100,7 +97,6 @@ const InvitedChatsList = () => {
                                          onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </Box>
-
                 </div>
                 <div className="chat-render">
                     {ChatId ? (
@@ -110,7 +106,6 @@ const InvitedChatsList = () => {
                             <img src={chatIcon} alt="Chat Icon" className="select-chat-icon"/>
                         </Box>
                     )}
-
                 </div>
             </div>
         </div>

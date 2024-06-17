@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
  * @returns {JSX.Element} A form for chat scheduling.
  */
 function ScheduleChat() {
+    // Hook initialisation : chat that will be added to the database at the end
     const [chat, setChat] = useState({
         title: "",
         description: '',
@@ -22,18 +23,17 @@ function ScheduleChat() {
         creatorId: sessionStorage.getItem("userId")
     });
     const [isSubmitted, setIsSubmitted] = useState([false, ""]);
+    // Function that updates the chat that will be sent to the database at the end
     const handleChange = (e) => {
-        console.log("---> handle...")
         const {name, value} = e.target;
         setChat(prevChat => ({
             ...prevChat,
             [name]: value
         }));
-        console.log(chat);
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(chat);
+        //Chat format vérification
         if (chat.title === "") {
             alert("Le titre du chat ne peut être vide");
             return;
@@ -46,6 +46,7 @@ function ScheduleChat() {
             alert("La durée doit être superieure à 0");
             return;
         }
+        // Http request to add the chat to the database
         axios.post("http://localhost:8080/UserController/createChat",
             chat, {headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}})
             .then(response => {
@@ -100,8 +101,6 @@ function ScheduleChat() {
                             </Grid>
                             <Grid item xs={6}>
                                 <p style={{marginBottom: 0, marginLeft: 12, color: "grey"}}> Date de début du chat</p>
-
-
                                 <input type="datetime-local"
                                        style={{marginTop: 0}}
                                        onChange={handleChange}

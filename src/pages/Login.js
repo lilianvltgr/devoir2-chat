@@ -26,72 +26,30 @@ const Login = () => {
         })
             .then(res => {
                 console.log("userId" + res.data)
+                // if the data is an userId > 0
                 if (res.data !== -1) {
+                    // Add information to session storage : userId and time of the session's end
                     sessionStorage.setItem("userId", res.data)
-                    console.log("connecté")
                     let endSessionTime = new Date();
                     endSessionTime.setMinutes(endSessionTime.getMinutes()+30);
                     endSessionTime = endSessionTime.toLocaleString();
                     sessionStorage.setItem("endSessionTime", endSessionTime);
                     setErrorConnection(false);
-                    // Token JWT
-                    if (res.headers.authorization) {
-                        console.log("token = " + res.headers.authorization)
-                        sessionStorage.setItem("token", res.headers.authorization)
-
-                    }
+                    // Redirect to the app page
                     window.location.href = '/MyChatsList';
                 } else {
                     setErrorConnection(true);
                 }
-
             })
             .catch(err => {
                 console.log(err)
             })
     }
-
-    /*const handleLogin = (event) => {
-        event.preventDefault();
-        // Utilisez POST au lieu de GET pour la sécurité
-        let requestUrl = `http://localhost:8080/UserController/authentification`;
-        axios.post(requestUrl, {
-            mail: mail,
-            password: password
-        }, {
-            withCredentials: true,  // pour cookies
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        })
-            .then(res => {
-                console.log("userId" + res.data)
-                if (res.data !== -1) {
-                    sessionStorage.setItem("userId", res.data)
-                    console.log("connecté")
-                    setErrorConnection(false);
-
-                    if (res.headers.authorization) {
-                        console.log("token = " + res.headers.authorization)
-                        sessionStorage.setItem("token", res.headers.authorization)
-                    }
-                    window.location.href = '/MyChatsList';
-                } else {
-                    setErrorConnection(true);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }*/
-
     return (
         <div className="login-container">
             <Typography variant="h3" component="h2">
                 Chat-App
             </Typography><br></br>
-
             <form>
                 <div className="mb-3">
                     <label htmlFor="mail" className="form-label">Email</label>

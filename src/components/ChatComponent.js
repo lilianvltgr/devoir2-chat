@@ -11,21 +11,21 @@ import "../chat.css";
  * @param {Object} chatId - Contains the chatId to identify the specific chat session.
  */
 function ChatComponent(chatId) {
-    // const {chatId} = useParams();
+    // Hooks initialisation
+    const [user, setUser] = useState()
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState("");
+    const [ws, setWs] = useState(null);
+    //Test if the session is valid
     let today= new Date().toLocaleString();
     if(sessionStorage.getItem("endSessionTime")<today || !sessionStorage.getItem("userId")){
         window.location.href = "http://localhost:3000/";
         sessionStorage.clear();
-        console.log("fin de la session");
     }
-    else
-        console.log("session encore ouverte");
-    const [user, setUser] = useState()
-    const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState(""); // État pour le message en cours de saisie
-    const [ws, setWs] = useState(null);
+    // UseEffect running only when chatId is set
     useEffect(() => {
         if (chatId.chatId) {
+            // Request to get user information and store it to the user hook
             let requestUrl = "http://localhost:8080/UserController/userInfos/" + sessionStorage.getItem("userId")
             axios.get(requestUrl
                 , {
@@ -37,26 +37,20 @@ function ChatComponent(chatId) {
                     setUser(response.data)
                 })
                 .catch(error => console.error('Error:', error));
+            // Creating webSocket to communicate with server
             const websocket = new WebSocket(`ws://localhost:8080/chat/${chatId.chatId}`);
             websocket.onopen = () => {
-                console.log("WebSocket Connected")
                 setMessages([]);
-                console.log("Ouverture : " + messages);
             }
             websocket.onmessage = (event) => {
                 const newMessage = JSON.parse(event.data); // Parse le JSON reçu
                 setMessages((prevMessages) => [newMessage, ...prevMessages]);
-                console.log("Received message: ", newMessage);
             };
             websocket.onerror = (error) => {
-                console.log("WebSocket Error: ", error);
                 setMessages([]);
-                console.log("Erreur : " + messages);
             };
             websocket.onclose = () => {
-                console.log("WebSocket Disconnected");
                 setMessages([]);
-                console.log("Fermer : " + messages);
             };
             setWs(websocket);
             return () => {
@@ -72,19 +66,20 @@ function ChatComponent(chatId) {
      * if message content exists and socket is open.
      */
     const handleSendMessage = () => {
-
-
         if (message !== "" && ws && ws.readyState === WebSocket.OPEN) {
             let json = JSON.stringify({
                 message: message,
                 user: user.lastname + " " + user.firstname,
-                userId: sessionStorage.getItem("userId"), // Inclure userId
+                userId: sessionStorage.getItem("userId"),
                 chatId: chatId.chatId
             });
-            ws.send(json); // Envoi du message comme JSON
-            setMessage(""); // Réinitialisation du champ de texte après l'envoi
+            // Sending message to the server
+            ws.send(json);
+            // message reinitialisation
+            setMessage("");
         }
     };
+    // return chat interface displayed as the main content of the app
     return (
         <div className="chat-container">
             <div className="messages-container">
